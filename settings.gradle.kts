@@ -27,5 +27,10 @@ rootProject.name = "Valorant"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
 
+include(":data:datastore")
+include(":data:local")
+include(":data:network")
+include(":data:source")
+
 include(":lint")
 include(":domain")
