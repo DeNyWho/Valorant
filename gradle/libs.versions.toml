@@ -164,3 +164,4 @@ valorant-android-library-jacoco = { id = "valorant.android.library.jacoco" }
 valorant-android-lint = { id = "valorant.android.lint" }
 valorant-android-room = { id = "valorant.android.room" }
 valorant-android-test = { id = "valorant.android.test" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
