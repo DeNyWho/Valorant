@@ -46,6 +46,9 @@ dependencies {
 
     implementation(projects.domain)
 
+    implementation(projects.core.uikit)
+    implementation(projects.core.common)
+
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3.adaptive)
     implementation(libs.androidx.core.ktx)

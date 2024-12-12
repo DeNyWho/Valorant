@@ -32,5 +32,8 @@ include(":data:local")
 include(":data:network")
 include(":data:source")
 
+include(":core:common")
+include(":core:uikit")
+
 include(":lint")
 include(":domain")

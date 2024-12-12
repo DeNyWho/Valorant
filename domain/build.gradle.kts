@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.valorant.android.library)
     alias(libs.plugins.valorant.android.library.jacoco)
     alias(libs.plugins.valorant.android.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
