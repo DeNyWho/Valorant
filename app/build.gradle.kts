@@ -45,6 +45,7 @@ android {
 dependencies {
 
     implementation(projects.domain)
+    implementation(projects.data.source)
 
     implementation(projects.core.uikit)
     implementation(projects.core.common)

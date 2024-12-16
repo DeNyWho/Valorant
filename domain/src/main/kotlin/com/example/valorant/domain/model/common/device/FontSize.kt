@@ -3,7 +3,7 @@ package com.example.valorant.domain.model.common.device
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class FontSizePrefs(
+enum class FontSize(
     val key: String,
     val fontSizeExtra: Int,
 ) {

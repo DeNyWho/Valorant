@@ -11,7 +11,7 @@ import androidx.compose.ui.text.style.LineHeightStyle.Alignment
 import androidx.compose.ui.text.style.LineHeightStyle.Trim
 import androidx.compose.ui.unit.sp
 import com.example.valorant.core.uikit.R
-import com.example.valorant.domain.model.common.device.FontSizePrefs
+import com.example.valorant.domain.model.common.device.FontSize
 
 private val NunitoFontFamily = FontFamily(
     Font(R.font.nunito_regular, FontWeight.Normal, FontStyle.Normal),
@@ -24,7 +24,7 @@ private const val lineHeightMultiplier = 1.15
 /**
  * Valorant typography
  */
-internal fun valorantTypography(fontSizePrefs: FontSizePrefs): Typography {
+internal fun valorantTypography(fontSizePrefs: FontSize): Typography {
     return Typography(
         titleLarge = TextStyle(
             fontWeight = FontWeight.Bold,
