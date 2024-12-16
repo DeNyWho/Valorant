@@ -34,7 +34,7 @@ include(":data:source")
 
 include(":core:common")
 include(":core:uikit")
+include(":core:testing")
 
 include(":lint")
 include(":domain")
-include(":core:testing")
