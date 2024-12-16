@@ -38,13 +38,18 @@ import com.example.valorant.core.uikit.component.ValorantBackground
 import com.example.valorant.core.uikit.component.icon.ValorantIcon
 import com.example.valorant.core.uikit.component.navigation.ValorantNavigationBar
 import com.example.valorant.core.uikit.component.navigation.ValorantNavigationBarItem
+import com.example.valorant.feature.explore.navigation.EXPLORE_ROUTE
+import com.example.valorant.feature.tournaments.navigation.TOURNAMENTS_ROUTE
 import com.example.valorant.navigation.TopLevelDestination
 import com.example.valorant.navigation.ValorantNavHost
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ValorantApp(appState: ValorantAppState) {
-    val screensWithNavBar = emptyList<String>()
+    val screensWithNavBar = listOf(
+        EXPLORE_ROUTE,
+        TOURNAMENTS_ROUTE,
+    )
 
     ValorantBackground {
         val snackbarHostState = remember { SnackbarHostState() }

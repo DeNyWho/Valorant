@@ -2,4 +2,5 @@
     <string name="app_name">Valorant</string>
     <string name="not_connected">Отсутствует интернет соединение</string>
     <string name="navigation_bar_explore_title">Explore</string>
+    <string name="navigation_bar_tournaments_title">Tournaments</string>
 </resources>

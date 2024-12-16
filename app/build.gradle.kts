@@ -44,6 +44,9 @@ android {
 
 dependencies {
 
+    implementation(projects.feature.explore)
+    implementation(projects.feature.tournaments)
+
     implementation(projects.domain)
     implementation(projects.data.source)
 

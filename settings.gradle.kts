@@ -38,3 +38,6 @@ include(":core:testing")
 
 include(":lint")
 include(":domain")
+
+include(":feature:explore")
+include(":feature:tournaments")

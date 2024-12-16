@@ -12,6 +12,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
 import com.example.valorant.core.common.util.network.NetworkMonitor
+import com.example.valorant.feature.explore.navigation.navigateToExplore
+import com.example.valorant.feature.tournaments.navigation.navigateToTournaments
 import com.example.valorant.navigation.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -78,9 +80,10 @@ class ValorantAppState(
             }
 
             // navigation between screens here
-//            when (topLevelDestination) {
-//                TopLevelDestination.BROWSE -> navController.navigateToBrowse(topLevelNavOptions)
-//            }
+            when (topLevelDestination) {
+                TopLevelDestination.EXPLORE -> navController.navigateToExplore(topLevelNavOptions)
+                TopLevelDestination.TOURNAMENTS -> navController.navigateToTournaments(topLevelNavOptions)
+            }
         }
     }
 }
