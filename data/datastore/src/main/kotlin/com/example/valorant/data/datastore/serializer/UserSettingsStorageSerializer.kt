@@ -1,10 +1,10 @@
 package com.example.valorant.data.datastore.serializer
 
-import com.example.valorant.domain.model.user.settings.UserSettings
-import kotlinx.serialization.ExperimentalSerializationApi
 import androidx.datastore.core.Serializer
+import com.example.valorant.domain.model.user.settings.UserSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.encodeToByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
