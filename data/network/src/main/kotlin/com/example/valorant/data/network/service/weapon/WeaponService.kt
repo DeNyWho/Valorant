@@ -1,10 +1,10 @@
-package com.example.valorant.data.network.service.agent
+package com.example.valorant.data.network.service.weapon
 
 import com.example.valorant.data.network.api.ApiEndpoints
-import com.example.valorant.data.network.model.dto.agent.detail.AgentDetailDTO
-import com.example.valorant.data.network.model.dto.agent.light.AgentLightDTO
 import com.example.valorant.data.network.model.dto.common.ValorantApiDTO
 import com.example.valorant.data.network.model.dto.common.ValorantApiListDTO
+import com.example.valorant.data.network.model.dto.weapon.detail.WeaponDetailDTO
+import com.example.valorant.data.network.model.dto.weapon.light.WeaponLightDTO
 import com.example.valorant.data.network.safeApiCall
 import com.example.valorant.domain.model.common.request.Resource
 import io.ktor.client.HttpClient
@@ -13,28 +13,28 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.encodedPath
 import javax.inject.Inject
 
-class AgentService @Inject constructor(
+class WeaponService @Inject constructor(
     private val client: HttpClient,
 ) {
-    suspend fun getAgents(): Resource<ValorantApiListDTO<AgentLightDTO>> {
+    suspend fun getWeapons(): Resource<ValorantApiListDTO<WeaponLightDTO>> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
             url {
-                encodedPath = ApiEndpoints.VALORANT_API_AGENTS
+                encodedPath = ApiEndpoints.VALORANT_API_WEAPONS
             }
         }
 
-        return safeApiCall<ValorantApiListDTO<AgentLightDTO>>(client, request)
+        return safeApiCall<ValorantApiListDTO<WeaponLightDTO>>(client, request)
     }
 
-    suspend fun getAgentDetail(uuid: String): Resource<ValorantApiDTO<AgentDetailDTO>> {
+    suspend fun getWeaponDetail(uuid: String): Resource<ValorantApiDTO<WeaponDetailDTO>> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
             url {
-                encodedPath = "${ApiEndpoints.VALORANT_API_AGENTS}/$uuid"
+                encodedPath = "${ApiEndpoints.VALORANT_API_WEAPONS}/$uuid"
             }
         }
 
-        return safeApiCall<ValorantApiDTO<AgentDetailDTO>>(client, request)
+        return safeApiCall<ValorantApiDTO<WeaponDetailDTO>>(client, request)
     }
 }
