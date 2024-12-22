@@ -8,6 +8,6 @@ data class WeaponDetail(
     val displayName: String,
     val displayIcon: String,
     val weaponStats: WeaponStats,
-    val shopData: ShopData,
+    val shopData: ShopData?,
     val skins: List<Skin>,
 )

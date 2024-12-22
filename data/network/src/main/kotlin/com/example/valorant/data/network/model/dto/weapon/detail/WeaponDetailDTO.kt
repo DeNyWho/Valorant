@@ -17,7 +17,7 @@ data class WeaponDetailDTO(
     @SerialName("weaponStats")
     val weaponStats: WeaponStatsDTO,
     @SerialName("shopData")
-    val shopData: ShopDataDTO,
+    val shopData: ShopDataDTO?,
     @SerialName("skins")
     val skins: List<SkinDTO>,
 )

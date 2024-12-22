@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -17,11 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.valorant.core.uikit.component.tab.ValorantScrollableTabRow
 import com.example.valorant.core.uikit.util.LocalScreenInfo
-import com.example.valorant.domain.model.agent.light.AgentLight
-import com.example.valorant.domain.model.common.device.ScreenInfo
-import com.example.valorant.domain.model.map.light.MapLight
-import com.example.valorant.domain.model.weapon.light.WeaponLight
-import com.example.valorant.domain.state.StateListWrapper
 import com.example.valorant.feature.explore.composable.tab.AgentsTabContent
 import com.example.valorant.feature.explore.composable.tab.MapsTabContent
 import com.example.valorant.feature.explore.composable.tab.WeaponsTabContent
@@ -62,7 +56,7 @@ internal fun ExploreScreen(
                 WeaponsTabContent(
                     screenInfo = screenInfo,
                     weapons = viewModel.weapons.value,
-                    onWeaponsClick = { },
+                    onWeaponClick = { },
                 )
             },
         ),

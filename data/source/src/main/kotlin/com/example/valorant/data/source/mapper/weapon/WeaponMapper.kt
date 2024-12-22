@@ -27,6 +27,8 @@ fun WeaponLightDTO.toLight(): WeaponLight = WeaponLight(
     uuid = uuid,
     displayName = displayName,
     displayIcon = displayIcon,
+    cost = shopData?.cost,
+    categoryText = shopData?.categoryText,
 )
 
 fun WeaponDetailDTO.toDetail(): WeaponDetail = WeaponDetail(
@@ -34,7 +36,7 @@ fun WeaponDetailDTO.toDetail(): WeaponDetail = WeaponDetail(
     displayName = displayName,
     displayIcon = displayIcon,
     weaponStats = weaponStats.toStats(),
-    shopData = shopData.toShopData(),
+    shopData = shopData?.toShopData(),
     skins = skins.map { it.toSkin() },
 )
 

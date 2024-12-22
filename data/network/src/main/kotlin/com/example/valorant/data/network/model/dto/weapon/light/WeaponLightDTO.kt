@@ -1,5 +1,6 @@
 package com.example.valorant.data.network.model.dto.weapon.light
 
+import com.example.valorant.data.network.model.dto.weapon.detail.stats.ShopDataDTO
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,4 +12,6 @@ data class WeaponLightDTO(
     val displayName: String,
     @SerialName("displayIcon")
     val displayIcon: String,
+    @SerialName("shopData")
+    val shopData: ShopDataDTO?,
 )
