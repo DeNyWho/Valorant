@@ -9,6 +9,7 @@ import com.example.valorant.data.network.safeApiCall
 import com.example.valorant.domain.model.common.request.Resource
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.parameter
 import io.ktor.http.HttpMethod
 import io.ktor.http.encodedPath
 import javax.inject.Inject
@@ -22,6 +23,7 @@ class AgentService @Inject constructor(
             url {
                 encodedPath = ApiEndpoints.VALORANT_API_AGENTS
             }
+            parameter("isPlayableCharacter", true)
         }
 
         return safeApiCall<ValorantApiListDTO<AgentLightDTO>>(client, request)
