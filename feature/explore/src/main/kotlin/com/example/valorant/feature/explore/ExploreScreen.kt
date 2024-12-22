@@ -35,7 +35,12 @@ internal fun ExploreScreen(
             content = {
                 AgentsTabContent(
                     screenInfo = screenInfo,
-                    agents = viewModel.agents.value,
+                    roles = viewModel.roles.value,
+                    agents = viewModel.filteredAgents.value,
+                    selectedRole = viewModel.selectedRole.value,
+                    onRoleSelected = { role ->
+                        viewModel.selectRole(role)
+                    },
                     onAgentClick = { },
                 )
             },
@@ -55,7 +60,12 @@ internal fun ExploreScreen(
             content = {
                 WeaponsTabContent(
                     screenInfo = screenInfo,
-                    weapons = viewModel.weapons.value,
+                    categories = viewModel.categories.value,
+                    weapons = viewModel.filteredWeapons.value,
+                    selectedCategory = viewModel.selectedCategory.value,
+                    onCategorySelected = { category ->
+                        viewModel.selectCategory(category)
+                    },
                     onWeaponClick = { },
                 )
             },
@@ -69,7 +79,7 @@ internal fun ExploreScreen(
         ValorantScrollableTabRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp),
+                .padding(bottom = 8.dp),
             itemModifier = Modifier.height(40.dp),
             items = tabs,
             selectedIndex = pagerState.currentPage,

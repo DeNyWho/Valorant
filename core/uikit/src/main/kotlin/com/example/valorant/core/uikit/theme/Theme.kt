@@ -21,8 +21,9 @@ val DarkColorScheme = darkColorScheme(
     onSurface = grey600,
     surface = grey800,
     primary = red400,
+    onPrimary = grey50,
     surfaceContainer = blue900,
-//    primaryContainer = ,
+    primaryContainer = red400,
     onPrimaryContainer = grey50,
 )
 
@@ -39,8 +40,9 @@ val LightColorScheme = lightColorScheme(
     onSurface = grey600,
     surface = grey800,
     primary = red400,
+    onPrimary = grey50,
     surfaceContainer = grey50,
-//    primaryContainer = ,
+    primaryContainer = red400,
     onPrimaryContainer = grey50,
 )
 
