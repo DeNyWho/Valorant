@@ -26,6 +26,9 @@ internal class MapRepositoryImpl @Inject constructor(
             val state = when(val mapsResult = mapService.getMaps()) {
                 is Resource.Success -> {
                     val data = mapsResult.data.data.map { it.toLight() }
+                        .groupBy { it.displayName }
+                        .filter { it.value.size == 1 }
+                        .flatMap { it.value }
                     StateListWrapper(data)
                 }
                 is Resource.Error -> {

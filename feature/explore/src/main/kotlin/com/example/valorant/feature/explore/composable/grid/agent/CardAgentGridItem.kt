@@ -52,9 +52,3 @@ internal fun CardAgentGridItem(
         )
     }
 }
-
-@Preview
-@Composable
-private fun PreviewCardAgentGridItem() {
-
-}
