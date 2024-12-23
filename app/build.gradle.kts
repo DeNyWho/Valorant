@@ -46,6 +46,9 @@ dependencies {
 
     implementation(projects.feature.explore)
     implementation(projects.feature.tournaments)
+    implementation(projects.feature.agent)
+    implementation(projects.feature.map)
+    implementation(projects.feature.weapon)
 
     implementation(projects.domain)
     implementation(projects.data.source)
