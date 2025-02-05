@@ -82,7 +82,6 @@ fun ValorantApp(appState: ValorantAppState) {
                 Column(Modifier.fillMaxSize()) {
                     ValorantNavHost(
                         appState = appState,
-                        isFirstLaunch = appState.isFirstLaunch,
                     )
                 }
             }

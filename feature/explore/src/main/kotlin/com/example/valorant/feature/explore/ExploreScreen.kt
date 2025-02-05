@@ -25,6 +25,9 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun ExploreScreen(
     viewModel: ExploreViewModel = hiltViewModel(),
+    onAgentPressed: (String) -> Unit,
+    onMapPressed: (String) -> Unit,
+    onWeaponPressed: (String) -> Unit,
 ) {
     val screenInfo = LocalScreenInfo.current
     val scope = rememberCoroutineScope()
@@ -41,7 +44,9 @@ internal fun ExploreScreen(
                     onRoleSelected = { role ->
                         viewModel.selectRole(role)
                     },
-                    onAgentClick = { },
+                    onAgentClick = { uuid ->
+                        onAgentPressed.invoke(uuid)
+                    },
                 )
             },
         ),
@@ -51,7 +56,9 @@ internal fun ExploreScreen(
                 MapsTabContent(
                     screenInfo = screenInfo,
                     maps = viewModel.maps.value,
-                    onMapClick = { },
+                    onMapClick = { uuid ->
+                        onMapPressed.invoke(uuid)
+                    },
                 )
             },
         ),
@@ -66,7 +73,9 @@ internal fun ExploreScreen(
                     onCategorySelected = { category ->
                         viewModel.selectCategory(category)
                     },
-                    onWeaponClick = { },
+                    onWeaponClick = { uuid ->
+                        onWeaponPressed.invoke(uuid)
+                    },
                 )
             },
         ),

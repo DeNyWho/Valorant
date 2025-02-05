@@ -10,10 +10,18 @@ const val EXPLORE_ROUTE = "explore_route"
 
 fun NavController.navigateToExplore(navOptions: NavOptions? = null) = navigate(EXPLORE_ROUTE, navOptions)
 
-fun NavGraphBuilder.exploreScreen() {
+fun NavGraphBuilder.exploreScreen(
+    onAgentPressed: (String) -> Unit,
+    onMapPressed: (String) -> Unit,
+    onWeaponPressed: (String) -> Unit,
+) {
     composable(
         route = EXPLORE_ROUTE
     ) {
-        ExploreScreen()
+        ExploreScreen(
+            onAgentPressed = onAgentPressed,
+            onMapPressed = onMapPressed,
+            onWeaponPressed = onWeaponPressed,
+        )
     }
 }

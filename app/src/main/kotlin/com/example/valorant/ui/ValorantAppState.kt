@@ -23,19 +23,16 @@ fun rememberValorantAppState(
     networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
-    isFirstLaunch: Boolean,
 ): ValorantAppState {
     return remember (
         navController,
         coroutineScope,
         networkMonitor,
-        isFirstLaunch,
     ) {
         ValorantAppState(
             navController = navController,
             coroutineScope = coroutineScope,
             networkMonitor = networkMonitor,
-            isFirstLaunch = isFirstLaunch,
         )
     }
 }
@@ -45,7 +42,6 @@ class ValorantAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
     networkMonitor: NetworkMonitor,
-    val isFirstLaunch: Boolean,
 ) {
     val currentDestination: NavDestination?
         @Composable get() = navController

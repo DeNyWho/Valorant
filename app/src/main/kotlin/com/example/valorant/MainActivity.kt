@@ -58,7 +58,6 @@ class MainActivity : ComponentActivity() {
                 val updatedScreenInfo = screenInfo.copy(fontSizePrefs = fontSizePrefs)
                 val appState = rememberValorantAppState(
                     networkMonitor = networkMonitor,
-                    isFirstLaunch = isFirstLaunch!!,
                 )
                 CompositionLocalProvider(LocalScreenInfo provides updatedScreenInfo) {
                     ValorantTheme {
