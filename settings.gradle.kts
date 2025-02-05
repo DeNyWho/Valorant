@@ -40,7 +40,6 @@ include(":lint")
 include(":domain")
 
 include(":feature:explore")
-include(":feature:tournaments")
 include(":feature:agent")
 include(":feature:map")
 include(":feature:weapon")

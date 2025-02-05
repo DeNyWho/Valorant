@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.example.valorant.feature.explore.navigation.EXPLORE_ROUTE
 import com.example.valorant.feature.explore.navigation.exploreScreen
-import com.example.valorant.feature.tournaments.navigation.tournamentsScreen
 import com.example.valorant.ui.ValorantAppState
 
 @Composable
@@ -23,7 +22,5 @@ fun ValorantNavHost(
         modifier = modifier,
     ) {
         exploreScreen()
-
-        tournamentsScreen()
     }
 }

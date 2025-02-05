@@ -38,18 +38,11 @@ import com.example.valorant.core.uikit.component.ValorantBackground
 import com.example.valorant.core.uikit.component.icon.ValorantIcon
 import com.example.valorant.core.uikit.component.navigation.ValorantNavigationBar
 import com.example.valorant.core.uikit.component.navigation.ValorantNavigationBarItem
-import com.example.valorant.feature.explore.navigation.EXPLORE_ROUTE
-import com.example.valorant.feature.tournaments.navigation.TOURNAMENTS_ROUTE
-import com.example.valorant.navigation.TopLevelDestination
 import com.example.valorant.navigation.ValorantNavHost
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ValorantApp(appState: ValorantAppState) {
-    val screensWithNavBar = listOf(
-        EXPLORE_ROUTE,
-        TOURNAMENTS_ROUTE,
-    )
 
     ValorantBackground {
         val snackbarHostState = remember { SnackbarHostState() }
@@ -68,45 +61,12 @@ fun ValorantApp(appState: ValorantAppState) {
             }
         }
 
-        val showNavBar = currentDestination?.route in screensWithNavBar
-
         Scaffold(
             modifier = Modifier.semantics {
                 testTagsAsResourceId = true
             },
             snackbarHost = { SnackbarHost(snackbarHostState) },
             contentWindowInsets = WindowInsets(0, 0, 0, 0),
-            bottomBar = {
-                if(showNavBar) {
-                    Surface(shadowElevation = 3.dp) {
-                        ValorantNavigationBar(
-                            modifier = Modifier.height(60.dp),
-                        ) {
-                            appState.topLevelDestinations.forEach { destination ->
-                                val selected = currentDestination
-                                    .isTopLevelDestinationInHierarchy(destination)
-                                ValorantNavigationBarItem(
-                                    icon = {
-                                        ValorantIcon(
-                                            modifier = Modifier.size(24.dp),
-                                            painter = painterResource(destination.icon),
-                                            contentDescription = null,
-                                        )
-                                    },
-                                    selected = selected,
-                                    label = {
-                                        Text(
-                                            text = stringResource(destination.iconTextId),
-                                            style = MaterialTheme.typography.titleSmall,
-                                        )
-                                    },
-                                    onClick = { appState.navigateToTopLevelDestination(destination) },
-                                )
-                            }
-                        }
-                    }
-                }
-            }
         ) { padding ->
             Row(
                 Modifier
@@ -129,8 +89,3 @@ fun ValorantApp(appState: ValorantAppState) {
         }
     }
 }
-
-private fun NavDestination?.isTopLevelDestinationInHierarchy(destination: TopLevelDestination) =
-    this?.hierarchy?.any {
-        it.route?.contains(destination.name, true) ?: false
-    } ?: false
