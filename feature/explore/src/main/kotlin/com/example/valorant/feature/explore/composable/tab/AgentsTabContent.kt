@@ -44,7 +44,7 @@ internal fun AgentsTabContent(
 
     val size = when (screenInfo.screenType) {
         ScreenType.SMALL -> CardAgentGridItemDefaults.Size.GridSmall
-        ScreenType.DEFAULT -> CardAgentGridItemDefaults.Size.GridMedium
+        ScreenType.MEDIUM -> CardAgentGridItemDefaults.Size.GridMedium
         else -> CardAgentGridItemDefaults.Size.GridLarge
     }
 

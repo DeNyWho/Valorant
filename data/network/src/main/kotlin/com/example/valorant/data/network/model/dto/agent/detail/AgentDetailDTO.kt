@@ -17,6 +17,8 @@ data class AgentDetailDTO(
     val characterTags: List<String>? = null,
     @SerialName("fullPortrait")
     val fullPortrait: String,
+    @SerialName("fullPortraitV2")
+    val fullPortraitV2: String,
     @SerialName("background")
     val background: String,
     @SerialName("role")

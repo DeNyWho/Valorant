@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
 
         val screenType: ScreenType = when {
             portraitWidthDp < 360 -> ScreenType.SMALL
-            portraitWidthDp in 360.0..480.0 -> ScreenType.DEFAULT
+            portraitWidthDp in 360.0..480.0 -> ScreenType.MEDIUM
             portraitWidthDp in 480.0..600.0 -> ScreenType.LARGE
             else -> ScreenType.EXTRA_LARGE
         }

@@ -13,5 +13,5 @@ data class AgentAbilitiesDTO(
     @SerialName("description")
     val description: String,
     @SerialName("displayIcon")
-    val displayIcon: String,
+    val displayIcon: String?,
 )

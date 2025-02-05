@@ -4,5 +4,5 @@ data class AgentAbilities(
     val slot: AgentAbilitiesType,
     val displayName: String,
     val description: String,
-    val displayIcon: String,
+    val displayIcon: String?,
 )

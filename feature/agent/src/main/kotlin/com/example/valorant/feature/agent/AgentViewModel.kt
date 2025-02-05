@@ -16,13 +16,13 @@ import javax.inject.Inject
 internal class AgentViewModel @Inject constructor(
     private val getAgentDetailUseCase: GetAgentDetailUseCase,
 ): ViewModel() {
-    private val _agentDetail: MutableState<StateWrapper<AgentDetail>> =
-        mutableStateOf(StateWrapper())
-    val agentDetail: MutableState<StateWrapper<AgentDetail>> = _agentDetail
+    private val _agent: MutableState<StateWrapper<AgentDetail>> =
+        mutableStateOf(StateWrapper.loading())
+    val agent: MutableState<StateWrapper<AgentDetail>> = _agent
 
-    fun getAgentDetail(uuid: String) {
+    fun getAgent(uuid: String) {
         getAgentDetailUseCase.invoke(uuid).onEach {
-            _agentDetail.value = it
+            _agent.value = it
         }.launchIn(viewModelScope)
     }
 

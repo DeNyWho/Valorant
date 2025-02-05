@@ -19,6 +19,10 @@ private val NunitoFontFamily = FontFamily(
     Font(R.font.nunito_bold, FontWeight.Bold, FontStyle.Normal),
 )
 
+private val TungstenFontFamily = FontFamily(
+    Font(R.font.tungsten_bold, FontWeight.Bold, FontStyle.Normal)
+)
+
 private const val lineHeightMultiplier = 1.15
 
 /**
@@ -50,6 +54,20 @@ internal fun valorantTypography(fontSizePrefs: FontSize): Typography {
             lineHeight = ((14 + fontSizePrefs.fontSizeExtra) * lineHeightMultiplier).sp,
             letterSpacing = 0.1.sp,
             fontFamily = NunitoFontFamily,
+        ),
+        displayLarge = TextStyle(
+            fontWeight = FontWeight.Bold,
+            fontSize = (64 + fontSizePrefs.fontSizeExtra).sp,
+            lineHeight = ((64 + fontSizePrefs.fontSizeExtra) * lineHeightMultiplier).sp,
+            letterSpacing = 0.1.sp,
+            fontFamily = TungstenFontFamily,
+        ),
+        displaySmall = TextStyle(
+            fontWeight = FontWeight.Bold,
+            fontSize = (16 + fontSizePrefs.fontSizeExtra).sp,
+            lineHeight = ((16 + fontSizePrefs.fontSizeExtra) * lineHeightMultiplier).sp,
+            letterSpacing = 0.1.sp,
+            fontFamily = TungstenFontFamily,
         ),
         bodyLarge = TextStyle(
             fontWeight = FontWeight.Normal,

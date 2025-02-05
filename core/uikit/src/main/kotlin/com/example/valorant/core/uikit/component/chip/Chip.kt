@@ -1,24 +1,23 @@
 package com.example.valorant.core.uikit.component.chip
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -34,18 +33,51 @@ import com.example.valorant.core.uikit.util.DefaultPreview
 fun ValorantChipSurface(
     modifier: Modifier = Modifier,
     title: String = "",
+    shape: CornerBasedShape = MaterialTheme.shapes.large,
+    textStyle: TextStyle = MaterialTheme.typography.labelSmall,
+    iconUrl: String? = null,
+    iconSize: Dp? = null,
 ) {
     Surface(
         modifier = modifier,
-        shape = MaterialTheme.shapes.large,
+        shape = shape,
         contentColor = MaterialTheme.colorScheme.onSurface,
         color = MaterialTheme.colorScheme.surfaceVariant,
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.labelSmall,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-        )
+        Row(
+            modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            var horizontalTextPadding = 8.dp
+
+            if(iconUrl != null && iconSize != null) {
+                horizontalTextPadding = 4.dp
+
+                AsyncImage(
+                    modifier = Modifier
+                        .padding(start = 4.dp)
+                        .align(Alignment.CenterVertically)
+                        .size(iconSize),
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(iconUrl)
+                        .crossfade(true)
+                        .size(Size.ORIGINAL)
+                        .build(),
+                    contentDescription = "Content thumbnail",
+                    contentScale = ContentScale.Crop,
+                    onError = {
+                        println(it.result.throwable.message)
+                    },
+                )
+            }
+
+            Text(
+                text = title,
+                style = textStyle,
+                modifier = Modifier
+                    .padding(horizontal = horizontalTextPadding),
+            )
+        }
     }
 }
 

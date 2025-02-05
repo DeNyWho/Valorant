@@ -10,14 +10,10 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.valorant.core.uikit.util.onUpdateShimmerBounds
 import com.example.valorant.domain.model.common.device.ScreenInfo
 import com.example.valorant.domain.model.common.device.ScreenType
 import com.example.valorant.domain.model.map.light.MapLight
 import com.example.valorant.domain.state.StateListWrapper
-import com.example.valorant.feature.explore.composable.grid.agent.CardAgentGridItem
-import com.example.valorant.feature.explore.composable.grid.agent.CardAgentGridItemDefaults
-import com.example.valorant.feature.explore.composable.grid.agent.showCardAgentGridItemShimmer
 import com.example.valorant.feature.explore.composable.grid.map.CardMapGridItem
 import com.example.valorant.feature.explore.composable.grid.map.CardMapGridItemDefaults
 
@@ -31,7 +27,7 @@ internal fun MapsTabContent(
 
     val size = when (screenInfo.screenType) {
         ScreenType.SMALL -> CardMapGridItemDefaults.Size.GridSmall
-        ScreenType.DEFAULT -> CardMapGridItemDefaults.Size.GridMedium
+        ScreenType.MEDIUM -> CardMapGridItemDefaults.Size.GridMedium
         else -> CardMapGridItemDefaults.Size.GridLarge
     }
 

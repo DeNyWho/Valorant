@@ -42,7 +42,7 @@ class MainViewModel @Inject constructor(
 //            userFirstLaunchUseCase.setFirstLaunchCompleted()
             val initialFontSize = when (screenType) {
                 ScreenType.SMALL -> FontSize.SMALL
-                ScreenType.DEFAULT -> FontSize.DEFAULT
+                ScreenType.MEDIUM -> FontSize.DEFAULT
                 ScreenType.LARGE -> FontSize.LARGE
                 ScreenType.EXTRA_LARGE -> FontSize.EXTRA_LARGE
             }

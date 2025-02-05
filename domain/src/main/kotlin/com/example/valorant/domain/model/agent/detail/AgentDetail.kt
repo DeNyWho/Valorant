@@ -9,6 +9,7 @@ data class AgentDetail(
     val description: String,
     val characterTags: List<String>? = null,
     val fullPortrait: String,
+    val fullPortraitV2: String,
     val background: String,
     val role: AgentRole,
     val abilities: List<AgentAbilities>,

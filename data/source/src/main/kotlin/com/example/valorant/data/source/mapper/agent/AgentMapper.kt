@@ -22,6 +22,7 @@ fun AgentDetailDTO.toDetail(): AgentDetail = AgentDetail(
     description = description,
     characterTags = characterTags,
     fullPortrait = fullPortrait,
+    fullPortraitV2 = fullPortraitV2,
     background = background,
     role = role.toRole(),
     abilities = abilities.map { it.toAbilities() }

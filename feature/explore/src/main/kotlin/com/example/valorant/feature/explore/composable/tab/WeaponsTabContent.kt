@@ -37,7 +37,7 @@ internal fun WeaponsTabContent(
 
     val size = when (screenInfo.screenType) {
         ScreenType.SMALL -> CardMapGridItemDefaults.Size.GridSmall
-        ScreenType.DEFAULT -> CardMapGridItemDefaults.Size.GridMedium
+        ScreenType.MEDIUM -> CardMapGridItemDefaults.Size.GridMedium
         else -> CardMapGridItemDefaults.Size.GridLarge
     }
     val chipTitles = listOf(stringResource(R.string.feature_explore_tab_chip_first)) + categories
