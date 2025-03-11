@@ -63,8 +63,6 @@ class DesignSystemDetector : Detector(), Detector.UastScanner {
             "NavigationBarItem" to "ValorantNavigationBarItem",
             "NavigationRail" to "ValorantNavigationRail",
             "NavigationRailItem" to "ValorantNavigationRailItem",
-            "TabRow" to "ValorantTabRow",
-            "Tab" to "ValorantTab",
             "IconToggleButton" to "ValorantIconToggleButton",
             "FilledIconToggleButton" to "ValorantIconToggleButton",
             "FilledTonalIconToggleButton" to "ValorantIconToggleButton",

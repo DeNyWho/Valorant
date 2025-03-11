@@ -1,0 +1,134 @@
+package com.example.valorant.feature.agent.components.abilities
+
+import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import com.example.valorant.domain.model.agent.abilities.AgentAbilities
+import com.example.valorant.feature.agent.R
+import kotlinx.coroutines.launch
+
+@Composable
+internal fun AbilitiesComponent(
+    modifier: Modifier = Modifier,
+    abilities: List<AgentAbilities>,
+) {
+    val pagerState = rememberPagerState(
+        pageCount = { abilities.size },
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(
+            text = stringResource(R.string.feature_agent_component_description_title),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+
+        TabRow(
+            selectedTabIndex = pagerState.currentPage,
+            containerColor = MaterialTheme.colorScheme.background,
+            indicator = { _ ->
+                Box(
+                    modifier = Modifier
+                        .height(4.dp)
+                        .background(Color.Transparent),
+                )
+            },
+            divider = {}
+        ) {
+            abilities.forEachIndexed { index, tabItem ->
+                Tab(
+                    selected = pagerState.currentPage == index,
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
+                    },
+                ) {
+                    IconTab(
+                        ability = tabItem,
+                        isSelected = pagerState.currentPage == index
+                    )
+                }
+            }
+        }
+        HorizontalPager (
+            pageSize = PageSize.Fill,
+            state = pagerState
+        ) { page ->
+            Column {
+                Text(
+                    text = abilities[page].displayName,
+                    style = MaterialTheme.typography.titleMedium,
+                )
+
+                Text(
+                    text = abilities[page].description,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun IconTab(ability: AgentAbilities, isSelected: Boolean) {
+    Box(
+        modifier = Modifier
+            .size(48.dp)
+            .background(
+                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
+                shape = MaterialTheme.shapes.medium,
+            )
+            .border(
+                width = 1.dp,
+                shape = MaterialTheme.shapes.medium,
+                color = MaterialTheme.colorScheme.onBackground,
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        AsyncImage(
+            modifier = Modifier
+                .size(32.dp),
+            model = ability.displayIcon,
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.background),
+            contentScale = ContentScale.Fit,
+        )
+    }
+}

@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.valorant.domain.model.agent.detail.AgentDetail
 import com.example.valorant.domain.state.StateWrapper
+import com.example.valorant.feature.agent.components.abilities.AbilitiesComponent
 import com.example.valorant.feature.agent.components.description.DescriptionComponent
 import com.example.valorant.feature.agent.components.overview.OverviewComponent
 
@@ -73,6 +74,13 @@ fun AgentUI(
                 modifier = Modifier
                     .padding(horizontal = 16.dp),
                 agent = agent,
+            )
+        }
+        item {
+            AbilitiesComponent(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp),
+                abilities = agent.abilities,
             )
         }
     }
