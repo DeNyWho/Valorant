@@ -44,7 +44,6 @@ android {
 
 dependencies {
 
-    implementation(projects.feature.explore)
     implementation(projects.feature.agent)
     implementation(projects.feature.map)
     implementation(projects.feature.weapon)

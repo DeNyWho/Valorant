@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="feature_explore_tab_agents_title">Agents</string>
-    <string name="feature_explore_tab_maps_title">Maps</string>
-    <string name="feature_explore_tab_weapons_title">Weapons</string>
-
-    <string name="feature_explore_tab_chip_first">All</string>
-</resources>

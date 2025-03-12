@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Valorant</string>
     <string name="not_connected">Отсутствует интернет соединение</string>
-    <string name="navigation_bar_explore_title">Explore</string>
-    <string name="navigation_bar_tournaments_title">Tournaments</string>
+    <string name="navigation_bar_agents_title">Agents</string>
+    <string name="navigation_bar_maps_title">Maps</string>
+    <string name="navigation_bar_weapons_title">Weapons</string>
+    <string name="navigation_bar_settings_title">Settings</string>
 </resources>
