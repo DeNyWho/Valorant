@@ -3,9 +3,12 @@
 
     <style name="NightAdjusted.Theme.Valorant" parent="android:Theme.Material.Light.NoActionBar" />
 
-    <style name="Theme.Valorant" parent="NightAdjusted.Theme.Valorant" />
+    <style name="Theme.Valorant" parent="NightAdjusted.Theme.Valorant">
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
+    </style>
 
     <style name="NightAdjusted.Theme.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
     </style>
 

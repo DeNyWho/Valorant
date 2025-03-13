@@ -1,11 +1,16 @@
 package com.example.valorant.core.uikit.theme
 
+import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 import com.example.valorant.core.uikit.util.LocalScreenInfo
+import com.example.valorant.domain.model.common.device.ThemeType
 import org.jetbrains.annotations.VisibleForTesting
 
 /**
@@ -53,13 +58,38 @@ val LightColorScheme = lightColorScheme(
  */
 @Composable
 fun ValorantTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    themeType: ThemeType = ThemeType.SYSTEM,
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = if(!darkTheme) {
-        LightColorScheme
-    } else {
-        DarkColorScheme
+    val colorScheme = when (themeType) {
+        ThemeType.DARK -> DarkColorScheme
+        ThemeType.LIGHT -> LightColorScheme
+        ThemeType.SYSTEM -> {
+            if (!isSystemInDarkTheme()) {
+                LightColorScheme
+            } else {
+                DarkColorScheme
+            }
+        }
+    }
+
+    val darkTheme = when (themeType) {
+        ThemeType.DARK -> true
+        ThemeType.LIGHT -> false
+        ThemeType.SYSTEM -> {
+            isSystemInDarkTheme()
+        }
+    }
+
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
+                !darkTheme // negate darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
+                !darkTheme
+        }
     }
 
     val screenInfo = LocalScreenInfo.current

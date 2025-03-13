@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -33,16 +34,20 @@ class MainActivity : ComponentActivity() {
     lateinit var networkMonitor: NetworkMonitor
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         var keepSplashScreen by mutableStateOf(true)
+        enableEdgeToEdge()
 
-        installSplashScreen().setKeepOnScreenCondition {
+        splashScreen.setKeepOnScreenCondition {
             keepSplashScreen
         }
 
         setContent {
             val isFirstLaunch by mainViewModel.isFirstLaunch.collectAsState()
             val fontSizePrefs by mainViewModel.fontSize.collectAsState()
+            val themeType by mainViewModel.selectedTheme.collectAsState()
+
             val screenInfo = remember { getScreenInfo() }
 
             LaunchedEffect(isFirstLaunch) {
@@ -60,7 +65,7 @@ class MainActivity : ComponentActivity() {
                     networkMonitor = networkMonitor,
                 )
                 CompositionLocalProvider(LocalScreenInfo provides updatedScreenInfo) {
-                    ValorantTheme {
+                    ValorantTheme(themeType) {
                         ValorantApp(appState)
                     }
                 }

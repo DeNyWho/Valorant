@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="NightAdjusted.Theme.Valorant" parent="android:Theme.Material.NoActionBar" />
 
     <style name="NightAdjusted.Theme.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
         <item name="android:windowSplashscreenContent">@drawable/valorant_logo_splash</item>
         <item name="postSplashScreenTheme">@style/Theme.Valorant</item>
     </style>
