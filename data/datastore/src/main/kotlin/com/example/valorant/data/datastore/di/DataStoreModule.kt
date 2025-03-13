@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
-import com.example.valorant.data.datastore.serializer.UserSettingsStorageSerializer
-import com.example.valorant.data.datastore.source.UserSettingsSource
-import com.example.valorant.domain.model.user.settings.UserSettings
+import com.example.valorant.data.datastore.serializer.UserDataStorageSerializer
+import com.example.valorant.data.datastore.source.UserDataSource
+import com.example.valorant.domain.model.user.UserData
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,28 +24,28 @@ internal object DataStoreModule {
 
     @Provides
     @Singleton
-    fun provideUserSettingsStorageSerializer(): UserSettingsStorageSerializer {
-        return UserSettingsStorageSerializer()
+    fun provideUserDataStorageSerializer(): UserDataStorageSerializer {
+        return UserDataStorageSerializer()
     }
 
     @Provides
     @Singleton
-    fun provideUserSettingsSource(dataStore: DataStore<UserSettings>): UserSettingsSource {
-        return UserSettingsSource(dataStore)
+    fun provideUserDataSource(dataStore: DataStore<UserData>): UserDataSource {
+        return UserDataSource(dataStore)
     }
 
     @Provides
     @Singleton
-    fun provideUserSettingsStore(
-        localStorageSerializer: UserSettingsStorageSerializer,
+    fun provideUserDataStore(
+        localStorageSerializer: UserDataStorageSerializer,
         @ApplicationContext context: Context
-    ): DataStore<UserSettings> {
+    ): DataStore<UserData> {
         return DataStoreFactory.create(
             serializer = localStorageSerializer,
             scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
             migrations = listOf()
         ) {
-            context.dataStoreFile("user_settings.pb")
+            context.dataStoreFile("user_data.pb")
         }
     }
 

@@ -1,7 +1,7 @@
 package com.example.valorant.data.datastore.serializer
 
 import androidx.datastore.core.Serializer
-import com.example.valorant.domain.model.user.settings.UserSettings
+import com.example.valorant.domain.model.user.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -11,13 +11,13 @@ import kotlinx.serialization.protobuf.ProtoBuf
 import java.io.InputStream
 import java.io.OutputStream
 
-internal class UserSettingsStorageSerializer: Serializer<UserSettings> {
+internal class UserDataStorageSerializer: Serializer<UserData> {
 
     /**
      * Value to return if there is no data on disk.
      */
-    override val defaultValue: UserSettings
-        get() = UserSettings()
+    override val defaultValue: UserData
+        get() = UserData()
 
     /**
      * Unmarshal object from stream.
@@ -25,7 +25,7 @@ internal class UserSettingsStorageSerializer: Serializer<UserSettings> {
      * @param input the InputStream with the data to deserialize
      */
     @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun readFrom(input: InputStream): UserSettings {
+    override suspend fun readFrom(input: InputStream): UserData {
         return ProtoBuf.decodeFromByteArray(input.readBytes())
     }
 
@@ -36,7 +36,7 @@ internal class UserSettingsStorageSerializer: Serializer<UserSettings> {
      * @output the OutputStream to serialize data to
      */
     @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun writeTo(t: UserSettings, output: OutputStream) {
+    override suspend fun writeTo(t: UserData, output: OutputStream) {
         withContext(Dispatchers.IO) {
             output.write(ProtoBuf.encodeToByteArray(t))
         }
