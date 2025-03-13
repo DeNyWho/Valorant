@@ -6,5 +6,4 @@ data class AgentLight(
     val uuid: String,
     val displayName: String,
     val displayIcon: String,
-    val role: AgentRole,
 )

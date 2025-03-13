@@ -1,4 +1,4 @@
-package com.example.valorant.data.network.model.dto.agent.detail
+package com.example.valorant.data.network.model.dto.agent
 
 import com.example.valorant.data.network.model.dto.agent.abilities.AgentAbilitiesDTO
 import com.example.valorant.data.network.model.dto.agent.role.AgentRoleDTO
@@ -6,11 +6,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AgentDetailDTO(
+data class AgentDTO(
     @SerialName("uuid")
     val uuid: String,
     @SerialName("displayName")
     val displayName: String,
+    @SerialName("displayIcon")
+    val displayIcon: String,
     @SerialName("description")
     val description: String,
     @SerialName("characterTags")

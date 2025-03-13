@@ -1,13 +1,13 @@
 package com.example.valorant.data.network.model.dto.agent.abilities
 
-import com.example.valorant.domain.model.agent.abilities.AgentAbilitiesType
+import com.example.valorant.domain.model.agent.abilities.AgentAbilityType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class AgentAbilitiesDTO(
     @SerialName("slot")
-    val slot: AgentAbilitiesType,
+    val slot: AgentAbilityType,
     @SerialName("displayName")
     val displayName: String,
     @SerialName("description")

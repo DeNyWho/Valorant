@@ -1,48 +1,37 @@
 package com.example.valorant.feature.agent.components.abilities
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.valorant.domain.model.agent.abilities.AgentAbilities
+import com.example.valorant.domain.model.agent.abilities.AgentAbility
 import com.example.valorant.feature.agent.R
 import kotlinx.coroutines.launch
 
 @Composable
 internal fun AbilitiesComponent(
     modifier: Modifier = Modifier,
-    abilities: List<AgentAbilities>,
+    abilities: List<AgentAbility>,
 ) {
     val pagerState = rememberPagerState(
         pageCount = { abilities.size },
@@ -107,7 +96,7 @@ internal fun AbilitiesComponent(
 }
 
 @Composable
-fun IconTab(ability: AgentAbilities, isSelected: Boolean) {
+fun IconTab(ability: AgentAbility, isSelected: Boolean) {
     Box(
         modifier = Modifier
             .size(48.dp)

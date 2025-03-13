@@ -1,6 +1,7 @@
 package com.example.valorant.data.source.di
 
 import com.example.valorant.data.datastore.source.UserSettingsSource
+import com.example.valorant.data.local.dao.agent.AgentDao
 import com.example.valorant.data.network.service.agent.AgentService
 import com.example.valorant.data.network.service.map.MapService
 import com.example.valorant.data.network.service.weapon.WeaponService
@@ -26,9 +27,11 @@ internal object SourceModule {
     @Singleton
     fun provideAgentRepository(
         agentService: AgentService,
+        agentDao: AgentDao,
     ): AgentRepository {
         return AgentRepositoryImpl(
             agentService = agentService,
+            agentDao = agentDao,
         )
     }
 

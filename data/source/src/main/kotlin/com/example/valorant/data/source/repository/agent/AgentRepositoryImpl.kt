@@ -1,8 +1,13 @@
 package com.example.valorant.data.source.repository.agent
 
+import com.example.valorant.data.local.dao.agent.AgentDao
+import com.example.valorant.data.local.mappers.agent.toDetail
+import com.example.valorant.data.local.mappers.agent.toLight
+import com.example.valorant.data.local.model.agent.AgentAbilityEntity
+import com.example.valorant.data.local.model.agent.AgentEntity
+import com.example.valorant.data.local.model.agent.AgentRoleEntity
+import com.example.valorant.data.network.model.dto.agent.AgentDTO
 import com.example.valorant.data.network.service.agent.AgentService
-import com.example.valorant.data.source.mapper.agent.toDetail
-import com.example.valorant.data.source.mapper.agent.toLight
 import com.example.valorant.domain.model.agent.detail.AgentDetail
 import com.example.valorant.domain.model.agent.light.AgentLight
 import com.example.valorant.domain.model.common.request.Resource
@@ -17,26 +22,37 @@ import javax.inject.Inject
 
 internal class AgentRepositoryImpl @Inject constructor(
     private val agentService: AgentService,
+    private val agentDao: AgentDao,
 ): AgentRepository {
 
-    override fun getAgents(): Flow<StateListWrapper<AgentLight>> {
+    override fun getAgents(roleId: String?): Flow<StateListWrapper<AgentLight>> {
         return flow {
             emit(StateListWrapper.loading())
 
-            val state = when(val agentsResult = agentService.getAgents()) {
-                is Resource.Success -> {
-                    val data = agentsResult.data.data.map { it.toLight() }
-                    StateListWrapper(data)
-                }
-                is Resource.Error -> {
-                    StateListWrapper(error = agentsResult.error)
-                }
-                is Resource.Loading -> {
-                    StateListWrapper.loading()
-                }
+            val localAgents = agentDao.getAllAgents()
+            if (localAgents.isNotEmpty()) {
+                emit(StateListWrapper(localAgents.map { it.toLight() }))
             }
 
-            emit(state)
+            when(val agentsResult = agentService.getAgents()) {
+                is Resource.Success -> {
+                    val agents = agentsResult.data.data
+                    saveAgentsToDatabase(agents)
+
+                    val savedAgents = agentDao.getAllAgents(roleId)
+
+                    val data = savedAgents.map { it.toLight() }
+                    emit(StateListWrapper(data))
+                }
+                is Resource.Error -> {
+                    if (localAgents.isEmpty()) {
+                        emit(StateListWrapper(error = agentsResult.error))
+                    }
+                }
+                is Resource.Loading -> {
+                    emit(StateListWrapper.loading())
+                }
+            }
         }.flowOn(Dispatchers.IO)
     }
 
@@ -44,20 +60,76 @@ internal class AgentRepositoryImpl @Inject constructor(
         return flow {
             emit(StateWrapper.loading())
 
-            val state = when(val agentsResult = agentService.getAgentDetail(uuid)) {
-                is Resource.Success -> {
-                    val data = agentsResult.data.data?.toDetail()
-                    StateWrapper(data)
-                }
-                is Resource.Error -> {
-                    StateWrapper(error = agentsResult.error)
-                }
-                is Resource.Loading -> {
-                    StateWrapper.loading()
-                }
+            val agentWithDetails = agentDao.getAgentWithDetails(uuid)
+            if (agentWithDetails != null) {
+                emit(StateWrapper(agentWithDetails.toDetail()))
             }
 
-            emit(state)
+            when(val agentResult = agentService.getAgentDetail(uuid)) {
+                is Resource.Success -> {
+                    val agentData = agentResult.data.data
+                    if (agentData != null) {
+                        saveAgentsToDatabase(listOf(agentData))
+
+                        val savedAgent = agentDao.getAgentWithDetails(uuid)
+                        if (savedAgent != null) {
+                            emit(StateWrapper(savedAgent.toDetail()))
+                        }
+                    }
+                }
+                is Resource.Error -> {
+                    if (agentWithDetails == null) {
+                        emit(StateWrapper(error = agentResult.error))
+                    }
+                }
+                is Resource.Loading -> {
+                    emit(StateWrapper.loading())
+                }
+            }
         }.flowOn(Dispatchers.IO)
+    }
+
+    private suspend fun saveAgentsToDatabase(agents: List<AgentDTO>) {
+        val uniqueRoles = agents.map { agent ->
+            AgentRoleEntity(
+                uuid = agent.role.uuid,
+                displayName = agent.role.displayName,
+                displayIcon = agent.role.displayIcon
+            )
+        }.distinctBy { it.uuid }
+
+        uniqueRoles.forEach { role ->
+            agentDao.insertRole(role)
+        }
+
+        agents.forEach { agent ->
+            try {
+                val agentEntity = AgentEntity(
+                    uuid = agent.uuid,
+                    displayName = agent.displayName,
+                    displayIcon = agent.displayIcon,
+                    description = agent.description,
+                    fullPortrait = agent.fullPortrait,
+                    fullPortraitV2 = agent.fullPortraitV2,
+                    background = agent.background,
+                    roleUuid = agent.role.uuid,
+                    characterTags = agent.characterTags
+                )
+                agentDao.insertAgent(agentEntity)
+
+                val abilities = agent.abilities.map { ability ->
+                    AgentAbilityEntity(
+                        agentUuid = agent.uuid,
+                        slot = ability.slot.toString(),
+                        displayName = ability.displayName,
+                        description = ability.description,
+                        displayIcon = ability.displayIcon
+                    )
+                }
+                agentDao.insertAbilities(abilities)
+            } catch (e: Exception) {
+                throw RuntimeException("Failed to save agent ${agent.uuid} (${agent.displayName}): ${e.message}")
+            }
+        }
     }
 }

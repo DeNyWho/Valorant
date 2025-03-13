@@ -32,17 +32,8 @@ internal class AgentsViewModel @Inject constructor(
         MutableStateFlow(StateListWrapper())
     val agents: StateFlow<StateListWrapper<AgentLight>> = _agents.asStateFlow()
 
-    private val _roles: MutableStateFlow<List<AgentRole>> =
-        MutableStateFlow(emptyList())
-    val roles: StateFlow<List<AgentRole>> = _roles.asStateFlow()
-
-    private val _filteredAgents: MutableStateFlow<StateListWrapper<AgentLight>> =
-        MutableStateFlow(StateListWrapper())
-    val filteredAgents: StateFlow<StateListWrapper<AgentLight>> = _filteredAgents.asStateFlow()
-
     init {
         loadInitialData()
-        setupAgentsFiltering()
     }
 
     private fun loadInitialData() {
@@ -52,52 +43,8 @@ internal class AgentsViewModel @Inject constructor(
     }
 
     private fun getAgents() {
-        getAgentsUseCase.invoke().onEach { agentListWrapper ->
-            _agents.update { agentListWrapper }
-
-            val uniqueRoles = agentListWrapper.data
-                .map { it.role }
-                .distinctBy { it.uuid }
-
-            _roles.update { uniqueRoles }
-
-            updateFilteredAgents()
+        getAgentsUseCase.invoke().onEach {
+            _agents.value = it
         }.launchIn(viewModelScope)
-    }
-
-    private fun setupAgentsFiltering() {
-        viewModelScope.launch {
-            _uiState
-                .map { it.selectedRole }
-                .distinctUntilChanged()
-                .collect { _ ->
-                    updateFilteredAgents()
-                }
-        }
-    }
-
-    private fun updateFilteredAgents() {
-        val allAgents = _agents.value
-        val selectedRole = _uiState.value.selectedRole
-
-        _filteredAgents.value = if (selectedRole == null) {
-            allAgents
-        } else {
-            StateListWrapper(
-                data = allAgents.data.filter { it.role.uuid == selectedRole.uuid },
-                isLoading = allAgents.isLoading,
-                error = allAgents.error
-            )
-        }
-    }
-
-    fun selectRole(role: AgentRole?) {
-        _uiState.update { currentState ->
-            currentState.copy(selectedRole = role)
-        }
-    }
-
-    fun clearRoleFilter() {
-        selectRole(null)
     }
 }

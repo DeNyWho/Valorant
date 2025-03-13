@@ -1,8 +1,7 @@
 package com.example.valorant.data.network.service.agent
 
 import com.example.valorant.data.network.api.ApiEndpoints
-import com.example.valorant.data.network.model.dto.agent.detail.AgentDetailDTO
-import com.example.valorant.data.network.model.dto.agent.light.AgentLightDTO
+import com.example.valorant.data.network.model.dto.agent.AgentDTO
 import com.example.valorant.data.network.model.dto.common.ValorantApiDTO
 import com.example.valorant.data.network.model.dto.common.ValorantApiListDTO
 import com.example.valorant.data.network.safeApiCall
@@ -17,7 +16,7 @@ import javax.inject.Inject
 class AgentService @Inject constructor(
     private val client: HttpClient,
 ) {
-    suspend fun getAgents(): Resource<ValorantApiListDTO<AgentLightDTO>> {
+    suspend fun getAgents(): Resource<ValorantApiListDTO<AgentDTO>> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
             url {
@@ -26,10 +25,10 @@ class AgentService @Inject constructor(
             parameter("isPlayableCharacter", true)
         }
 
-        return safeApiCall<ValorantApiListDTO<AgentLightDTO>>(client, request)
+        return safeApiCall<ValorantApiListDTO<AgentDTO>>(client, request)
     }
 
-    suspend fun getAgentDetail(uuid: String): Resource<ValorantApiDTO<AgentDetailDTO>> {
+    suspend fun getAgentDetail(uuid: String): Resource<ValorantApiDTO<AgentDTO>> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
             url {
@@ -37,6 +36,6 @@ class AgentService @Inject constructor(
             }
         }
 
-        return safeApiCall<ValorantApiDTO<AgentDetailDTO>>(client, request)
+        return safeApiCall<ValorantApiDTO<AgentDTO>>(client, request)
     }
 }

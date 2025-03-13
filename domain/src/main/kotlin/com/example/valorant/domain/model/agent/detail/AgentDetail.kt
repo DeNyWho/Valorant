@@ -1,6 +1,6 @@
 package com.example.valorant.domain.model.agent.detail
 
-import com.example.valorant.domain.model.agent.abilities.AgentAbilities
+import com.example.valorant.domain.model.agent.abilities.AgentAbility
 import com.example.valorant.domain.model.agent.role.AgentRole
 
 data class AgentDetail(
@@ -12,5 +12,5 @@ data class AgentDetail(
     val fullPortraitV2: String,
     val background: String,
     val role: AgentRole,
-    val abilities: List<AgentAbilities>,
+    val abilities: List<AgentAbility>,
 )
