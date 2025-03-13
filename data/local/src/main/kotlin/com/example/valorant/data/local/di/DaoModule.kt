@@ -1,6 +1,7 @@
 package com.example.valorant.data.local.di
 
 import com.example.valorant.data.local.ValorantDatabase
+import com.example.valorant.data.local.dao.DataUpdateDao
 import com.example.valorant.data.local.dao.agent.AgentDao
 import dagger.Module
 import dagger.Provides
@@ -14,4 +15,9 @@ internal object DaoModule {
     fun provideAgentDao(
         database: ValorantDatabase,
     ): AgentDao = database.agentDao()
+
+    @Provides
+    fun provideDataUpdateDao(
+        database: ValorantDatabase,
+    ): DataUpdateDao = database.dataUpdateDao()
 }

@@ -4,7 +4,9 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.valorant.data.local.converters.StringListConverter
+import com.example.valorant.data.local.dao.DataUpdateDao
 import com.example.valorant.data.local.dao.agent.AgentDao
+import com.example.valorant.data.local.model.DataUpdateEntity
 import com.example.valorant.data.local.model.agent.AgentAbilityEntity
 import com.example.valorant.data.local.model.agent.AgentEntity
 import com.example.valorant.data.local.model.agent.AgentRoleEntity
@@ -14,11 +16,13 @@ import com.example.valorant.data.local.model.agent.AgentRoleEntity
         AgentEntity::class,
         AgentRoleEntity::class,
         AgentAbilityEntity::class,
+        DataUpdateEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = true,
 )
 @TypeConverters(StringListConverter::class)
 internal abstract class ValorantDatabase : RoomDatabase() {
     abstract fun agentDao(): AgentDao
+    abstract fun dataUpdateDao(): DataUpdateDao
 }

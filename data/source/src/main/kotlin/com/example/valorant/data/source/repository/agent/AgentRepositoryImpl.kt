@@ -1,9 +1,11 @@
 package com.example.valorant.data.source.repository.agent
 
+import com.example.valorant.data.local.dao.DataUpdateDao
 import com.example.valorant.data.local.dao.agent.AgentDao
 import com.example.valorant.data.local.mappers.agent.toDetail
 import com.example.valorant.data.local.mappers.agent.toLight
 import com.example.valorant.data.local.mappers.agent.toRole
+import com.example.valorant.data.local.model.DataUpdateEntity
 import com.example.valorant.data.local.model.agent.AgentAbilityEntity
 import com.example.valorant.data.local.model.agent.AgentEntity
 import com.example.valorant.data.local.model.agent.AgentRoleEntity
@@ -26,12 +28,15 @@ import javax.inject.Inject
 internal class AgentRepositoryImpl @Inject constructor(
     private val agentService: AgentService,
     private val agentDao: AgentDao,
+    private val dataUpdateDao: DataUpdateDao,
 ): AgentRepository {
     override fun getAgents(role: AgentRole?): Flow<StateListWrapper<AgentLight>> {
         return flow {
             val localAgents = agentDao.getAllAgents(role?.uuid)
+            val shouldFetch = dataUpdateDao.isUpdateExpired(DATA_TYPE,  System.currentTimeMillis())
+            val dataExists = dataUpdateDao.doesDataExist(DATA_TYPE) > 0
 
-            if (localAgents.isNotEmpty()) {
+            if (localAgents.isNotEmpty() && !shouldFetch) {
                 emit(StateListWrapper(localAgents.map { it.toLight() }))
             } else {
                 emit(StateListWrapper.loading())
@@ -42,6 +47,20 @@ internal class AgentRepositoryImpl @Inject constructor(
                         saveAgentsToDatabase(agents)
 
                         val savedAgents = agentDao.getAllAgents(role?.uuid)
+
+                        if(savedAgents.isNotEmpty()) {
+                            if (dataExists) {
+                                dataUpdateDao.updateNextUpdateTime(DATA_TYPE, System.currentTimeMillis(), UPDATE_INTERVAL)
+                            } else {
+                                val nextUpdateAt = System.currentTimeMillis() + UPDATE_INTERVAL
+                                val dataUpdate = DataUpdateEntity(
+                                    dataType = DATA_TYPE,
+                                    lastUpdatedAt = System.currentTimeMillis(),
+                                    nextUpdateAt = nextUpdateAt
+                                )
+                                dataUpdateDao.insertUpdate(dataUpdate)
+                            }
+                        }
 
                         val data = savedAgents.map { it.toLight() }
                         emit(StateListWrapper(data))
@@ -145,5 +164,10 @@ internal class AgentRepositoryImpl @Inject constructor(
                 throw RuntimeException("Failed to save agent ${agent.uuid} (${agent.displayName}): ${e.message}")
             }
         }
+    }
+
+    companion object {
+        const val UPDATE_INTERVAL: Long = 30 * 60 * 1000
+        const val DATA_TYPE = "agents"
     }
 }
