@@ -3,6 +3,7 @@ package com.example.valorant.data.source.repository.agent
 import com.example.valorant.data.local.dao.agent.AgentDao
 import com.example.valorant.data.local.mappers.agent.toDetail
 import com.example.valorant.data.local.mappers.agent.toLight
+import com.example.valorant.data.local.mappers.agent.toRole
 import com.example.valorant.data.local.model.agent.AgentAbilityEntity
 import com.example.valorant.data.local.model.agent.AgentEntity
 import com.example.valorant.data.local.model.agent.AgentRoleEntity
@@ -10,14 +11,18 @@ import com.example.valorant.data.network.model.dto.agent.AgentDTO
 import com.example.valorant.data.network.service.agent.AgentService
 import com.example.valorant.domain.model.agent.detail.AgentDetail
 import com.example.valorant.domain.model.agent.light.AgentLight
+import com.example.valorant.domain.model.agent.role.AgentRole
 import com.example.valorant.domain.model.common.request.Resource
 import com.example.valorant.domain.repository.agent.AgentRepository
 import com.example.valorant.domain.state.StateListWrapper
 import com.example.valorant.domain.state.StateWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 internal class AgentRepositoryImpl @Inject constructor(
@@ -25,32 +30,33 @@ internal class AgentRepositoryImpl @Inject constructor(
     private val agentDao: AgentDao,
 ): AgentRepository {
 
-    override fun getAgents(roleId: String?): Flow<StateListWrapper<AgentLight>> {
+    override fun getAgents(role: AgentRole?): Flow<StateListWrapper<AgentLight>> {
         return flow {
-            emit(StateListWrapper.loading())
+            val localAgents = agentDao.getAllAgents(role?.uuid)
 
-            val localAgents = agentDao.getAllAgents()
             if (localAgents.isNotEmpty()) {
                 emit(StateListWrapper(localAgents.map { it.toLight() }))
-            }
+            } else {
+                emit(StateListWrapper.loading())
 
-            when(val agentsResult = agentService.getAgents()) {
-                is Resource.Success -> {
-                    val agents = agentsResult.data.data
-                    saveAgentsToDatabase(agents)
+                when(val agentsResult = agentService.getAgents()) {
+                    is Resource.Success -> {
+                        val agents = agentsResult.data.data
+                        saveAgentsToDatabase(agents)
 
-                    val savedAgents = agentDao.getAllAgents(roleId)
+                        val savedAgents = agentDao.getAllAgents(role?.uuid)
 
-                    val data = savedAgents.map { it.toLight() }
-                    emit(StateListWrapper(data))
-                }
-                is Resource.Error -> {
-                    if (localAgents.isEmpty()) {
-                        emit(StateListWrapper(error = agentsResult.error))
+                        val data = savedAgents.map { it.toLight() }
+                        emit(StateListWrapper(data))
                     }
-                }
-                is Resource.Loading -> {
-                    emit(StateListWrapper.loading())
+                    is Resource.Error -> {
+                        if (localAgents.isEmpty()) {
+                            emit(StateListWrapper(error = agentsResult.error))
+                        }
+                    }
+                    is Resource.Loading -> {
+                        emit(StateListWrapper.loading())
+                    }
                 }
             }
         }.flowOn(Dispatchers.IO)
@@ -85,6 +91,19 @@ internal class AgentRepositoryImpl @Inject constructor(
                 is Resource.Loading -> {
                     emit(StateWrapper.loading())
                 }
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getAgentsRoles(): Flow<StateListWrapper<AgentRole>> {
+        val rolesFlow = agentDao.getAllRoles()
+        val agentsFlow = agentDao.getAllAgentsFlow(null)
+
+        return combine(rolesFlow, agentsFlow) { roles, agents ->
+            if (agents.isEmpty()) {
+                StateListWrapper.loading()
+            } else {
+                StateListWrapper(data = roles.map { it.toRole() })
             }
         }.flowOn(Dispatchers.IO)
     }

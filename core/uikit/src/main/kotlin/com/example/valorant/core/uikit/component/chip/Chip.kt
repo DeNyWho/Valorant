@@ -3,11 +3,9 @@ package com.example.valorant.core.uikit.component.chip
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -105,14 +103,24 @@ fun ValorantChipPrimary(
     isLarge: Boolean = false,
 ) {
     Surface(
-        modifier = modifier,
+        modifier = modifier
+            .height(28.dp)
+            .then(
+                if (onSelect != null) {
+                    Modifier.clickable { onSelect(!isSelected) }
+                } else {
+                    Modifier
+                }
+            ),
         shape = MaterialTheme.shapes.large,
         color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
         contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onPrimaryContainer,
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            modifier = Modifier
+                .padding(horizontal = 4.dp, vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             var horizontalTextPadding = 8.dp
             val textStyle = if(isLarge) MaterialTheme.typography.labelLarge else MaterialTheme.typography.labelSmall
@@ -141,15 +149,7 @@ fun ValorantChipPrimary(
             Text(
                 text = title,
                 style = textStyle,
-                modifier = Modifier
-                    .padding(horizontal = horizontalTextPadding)
-                    .then(
-                        if (onSelect != null) {
-                            Modifier.clickable { onSelect(!isSelected) }
-                        } else {
-                            Modifier
-                        }
-                    )
+                modifier = Modifier.padding(horizontal = horizontalTextPadding),
             )
         }
     }
@@ -172,33 +172,5 @@ private fun PreviewValorantChipPrimary() {
             isSelected = false,
             onSelect = { },
         )
-    }
-}
-
-@Composable
-fun ValorantChipGroupPrimary(
-    chipTitles: List<String>,
-    selectedChipIndex: Int?,
-    onChipSelected: (Int) -> Unit,
-    roleIcons: List<String>? = null,
-) {
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-    ) {
-        itemsIndexed(chipTitles) { index, title ->
-            val iconUrl = if (index == 0) null else roleIcons?.getOrElse(index - 1) { null }
-
-            ValorantChipPrimary(
-                title = title,
-                isSelected = selectedChipIndex == index,
-                onSelect = { onChipSelected(index) },
-                iconUrl = iconUrl,
-                iconSize = 12.dp,
-                isLarge = true,
-            )
-        }
     }
 }

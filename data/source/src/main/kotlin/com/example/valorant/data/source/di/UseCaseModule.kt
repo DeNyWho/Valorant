@@ -4,6 +4,7 @@ import com.example.valorant.domain.repository.agent.AgentRepository
 import com.example.valorant.domain.repository.map.MapRepository
 import com.example.valorant.domain.repository.weapon.WeaponRepository
 import com.example.valorant.domain.usecase.agent.GetAgentDetailUseCase
+import com.example.valorant.domain.usecase.agent.GetAgentsRolesUseCase
 import com.example.valorant.domain.usecase.agent.GetAgentsUseCase
 import com.example.valorant.domain.usecase.map.GetMapDetailUseCase
 import com.example.valorant.domain.usecase.map.GetMapsUseCase
@@ -23,6 +24,12 @@ internal object UseCaseModule {
     @Singleton
     fun provideGetAgentsUseCase(agentRepository: AgentRepository): GetAgentsUseCase {
         return GetAgentsUseCase(agentRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAgentsRolesUseCase(agentRepository: AgentRepository): GetAgentsRolesUseCase {
+        return GetAgentsRolesUseCase(agentRepository)
     }
 
     @Provides

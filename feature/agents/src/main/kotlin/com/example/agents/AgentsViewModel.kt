@@ -6,6 +6,7 @@ import com.example.agents.model.state.AgentsUiState
 import com.example.valorant.domain.model.agent.light.AgentLight
 import com.example.valorant.domain.model.agent.role.AgentRole
 import com.example.valorant.domain.state.StateListWrapper
+import com.example.valorant.domain.usecase.agent.GetAgentsRolesUseCase
 import com.example.valorant.domain.usecase.agent.GetAgentsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,29 +23,55 @@ import javax.inject.Inject
 @HiltViewModel
 internal class AgentsViewModel @Inject constructor(
     private val getAgentsUseCase: GetAgentsUseCase,
+    private val getAgentsRolesUseCase: GetAgentsRolesUseCase,
 ) : ViewModel() {
     private val _uiState: MutableStateFlow<AgentsUiState> =
         MutableStateFlow(AgentsUiState())
     val uiState: StateFlow<AgentsUiState> =
         _uiState.asStateFlow()
 
+    private val _roles: MutableStateFlow<StateListWrapper<AgentRole>> =
+        MutableStateFlow(StateListWrapper.loading())
+    val roles: StateFlow<StateListWrapper<AgentRole>> = _roles.asStateFlow()
+
     private val _agents: MutableStateFlow<StateListWrapper<AgentLight>> =
-        MutableStateFlow(StateListWrapper())
+        MutableStateFlow(StateListWrapper.loading())
     val agents: StateFlow<StateListWrapper<AgentLight>> = _agents.asStateFlow()
 
     init {
-        loadInitialData()
+        setupAgentsFlow()
+        setupAgentsRolesFlow()
     }
 
-    private fun loadInitialData() {
+    private fun setupAgentsFlow() {
         viewModelScope.launch {
-            getAgents()
+            _uiState
+                .map { it.selectedRole }
+                .distinctUntilChanged()
+                .collect { selectedRole ->
+                    getAgents(selectedRole)
+                }
         }
     }
 
-    private fun getAgents() {
-        getAgentsUseCase.invoke().onEach {
-            _agents.value = it
-        }.launchIn(viewModelScope)
+    private fun setupAgentsRolesFlow() {
+        viewModelScope.launch {
+            getAgentsRolesUseCase.invoke()
+                .collect { rolesState ->
+                    _roles.update { rolesState }
+                }
+        }
+    }
+
+    private fun getAgents(selectedRole: AgentRole?) {
+        getAgentsUseCase.invoke(selectedRole)
+            .onEach { stateListWrapper ->
+                _agents.value = stateListWrapper
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun updateSelectedRole(role: AgentRole?) {
+        _uiState.update { it.copy(selectedRole = role) }
     }
 }

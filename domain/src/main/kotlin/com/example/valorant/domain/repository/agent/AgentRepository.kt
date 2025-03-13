@@ -8,6 +8,7 @@ import com.example.valorant.domain.state.StateWrapper
 import kotlinx.coroutines.flow.Flow
 
 interface AgentRepository {
-    fun getAgents(roleId: String?): Flow<StateListWrapper<AgentLight>>
+    fun getAgents(role: AgentRole?): Flow<StateListWrapper<AgentLight>>
     fun getAgentDetail(uuid: String): Flow<StateWrapper<AgentDetail>>
+    suspend fun getAgentsRoles(): Flow<StateListWrapper<AgentRole>>
 }
