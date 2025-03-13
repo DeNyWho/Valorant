@@ -1,32 +1,28 @@
 package com.example.valorant.feature.agent.navigation
 
-import androidx.compose.runtime.remember
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.example.valorant.feature.agent.AgentScreen
+import kotlinx.serialization.Serializable
 
-const val AGENT_ROUTE = "agent_route"
+@Serializable
+data class AgentRoute(val agentId: String)
 
-fun NavController.navigateToAgent(uuid: String, navOptions: NavOptions? = null) = navigate("${AGENT_ROUTE}?uuid=$uuid", navOptions)
+fun NavController.navigateToAgent(agentId: String, navOptions: NavOptions? = null) {
+    navigate(route = AgentRoute(agentId), navOptions)
+}
 
 fun NavGraphBuilder.agentScreen(
-    onBackPressed: () -> Boolean,
+    onBackClick: () -> Boolean,
 ) {
-    composable(
-        "$AGENT_ROUTE?uuid={uuid}",
-        arguments = listOf(
-            navArgument("uuid") { type = NavType.StringType },
-        ),
-    ) {
-        val uuid = remember { it.arguments?.getString("uuid") }
+    composable<AgentRoute> { backStackEntry ->
+        val agentId = backStackEntry.arguments?.getString("agentId") ?: throw IllegalArgumentException("AgentScreen requires a non-null id")
 
         AgentScreen(
-            uuid = uuid ?: throw IllegalArgumentException("AgentScreen requires a non-null uuid"),
-            onBackPressed = onBackPressed,
+            agentId = agentId,
+            onBackClick = onBackClick,
         )
     }
 }

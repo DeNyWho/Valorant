@@ -3,42 +3,49 @@ package com.example.valorant.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import com.example.agents.navigation.AgentsRoute
+import com.example.agents.navigation.agentsScreen
+import com.example.maps.navigation.mapsScreen
+import com.example.settings.navigation.settingsScreen
 import com.example.valorant.feature.agent.navigation.agentScreen
 import com.example.valorant.feature.agent.navigation.navigateToAgent
-import com.example.valorant.feature.explore.navigation.EXPLORE_ROUTE
-import com.example.valorant.feature.explore.navigation.exploreScreen
 import com.example.valorant.feature.map.navigation.mapScreen
 import com.example.valorant.feature.map.navigation.navigateToMap
 import com.example.valorant.feature.weapon.navigation.navigateToWeapon
 import com.example.valorant.feature.weapon.navigation.weaponScreen
 import com.example.valorant.ui.ValorantAppState
+import com.example.weapons.navigation.weaponsScreen
 
 @Composable
 fun ValorantNavHost(
     appState: ValorantAppState,
     modifier: Modifier = Modifier,
-    startDestination: String = EXPLORE_ROUTE,
 ) {
     val navController = appState.navController
 
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = AgentsRoute,
         modifier = modifier,
     ) {
-        exploreScreen(
-            onAgentPressed = navController::navigateToAgent,
-            onMapPressed = navController::navigateToMap,
-            onWeaponPressed = navController::navigateToWeapon,
+        agentsScreen(
+            onAgentClick = navController::navigateToAgent,
         )
         agentScreen(
-            onBackPressed = navController::popBackStack,
+            onBackClick = navController::popBackStack,
+        )
+        mapsScreen(
+            onMapClick = navController::navigateToMap,
         )
         mapScreen(
-            onBackPressed = navController::popBackStack,
+            onBackClick = navController::popBackStack,
+        )
+        weaponsScreen(
+            onWeaponClick = navController::navigateToWeapon,
         )
         weaponScreen(
-            onBackPressed = navController::popBackStack,
+            onBackClick = navController::popBackStack,
         )
+        settingsScreen()
     }
 }

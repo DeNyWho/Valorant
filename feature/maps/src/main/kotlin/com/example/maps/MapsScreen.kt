@@ -13,9 +13,8 @@ import com.example.valorant.core.uikit.util.DefaultPreview
 
 @Composable
 internal fun MapsScreen(
-    onBackPressed: () -> Boolean,
     viewModel: MapsViewModel = hiltViewModel(),
-    uuid: String,
+    onMapClick: (String) -> Unit,
 ) {
     MapsUI()
 }

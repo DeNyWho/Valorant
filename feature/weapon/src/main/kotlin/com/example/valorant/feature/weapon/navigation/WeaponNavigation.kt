@@ -1,32 +1,28 @@
 package com.example.valorant.feature.weapon.navigation
 
-import androidx.compose.runtime.remember
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.example.valorant.feature.weapon.WeaponScreen
+import kotlinx.serialization.Serializable
 
-const val WEAPON_ROUTE = "weapon_route"
+@Serializable
+data class WeaponRoute(val weaponId: String)
 
-fun NavController.navigateToWeapon(uuid: String, navOptions: NavOptions? = null) = navigate("${WEAPON_ROUTE}?uuid=$uuid", navOptions)
+fun NavController.navigateToWeapon(weaponId: String, navOptions: NavOptions? = null) {
+    navigate(route = WeaponRoute(weaponId), navOptions)
+}
 
 fun NavGraphBuilder.weaponScreen(
-    onBackPressed: () -> Boolean,
+    onBackClick: () -> Boolean,
 ) {
-    composable(
-        "$WEAPON_ROUTE?uuid={uuid}",
-        arguments = listOf(
-            navArgument("uuid") { type = NavType.StringType },
-        ),
-    ) {
-        val uuid = remember { it.arguments?.getString("uuid") }
+    composable<WeaponRoute> { backStackEntry ->
+        val weaponId = backStackEntry.arguments?.getString("weaponId") ?: throw IllegalArgumentException("WeaponScreen requires a non-null id")
 
         WeaponScreen(
-            uuid = uuid ?: throw IllegalArgumentException("WeaponScreen requires a non-null uuid"),
-            onBackPressed = onBackPressed,
+            weaponId = weaponId,
+            onBackClick = onBackClick,
         )
     }
 }

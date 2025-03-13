@@ -13,9 +13,8 @@ import com.example.valorant.core.uikit.util.DefaultPreview
 
 @Composable
 internal fun AgentsScreen(
-    onBackPressed: () -> Boolean,
     viewModel: AgentsViewModel = hiltViewModel(),
-    uuid: String,
+    onAgentClick: (String) -> Unit,
 ) {
     AgentsUI()
 }

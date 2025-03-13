@@ -20,16 +20,16 @@ import com.example.valorant.feature.agent.components.overview.OverviewComponent
 @Composable
 internal fun AgentScreen(
     viewModel: AgentViewModel = hiltViewModel(),
-    uuid: String,
-    onBackPressed: () -> Boolean,
+    agentId: String,
+    onBackClick: () -> Boolean,
 ) {
     LaunchedEffect(viewModel) {
-        viewModel.getAgent(uuid)
+        viewModel.getAgent(agentId)
     }
 
     AgentContent(
         agent = viewModel.agent.value,
-        onBackPressed = onBackPressed,
+        onBackPressed = onBackClick,
     )
 
 }

@@ -43,10 +43,13 @@ android {
 }
 
 dependencies {
-
+    implementation(projects.feature.agents)
     implementation(projects.feature.agent)
+    implementation(projects.feature.maps)
     implementation(projects.feature.map)
+    implementation(projects.feature.weapons)
     implementation(projects.feature.weapon)
+    implementation(projects.feature.settings)
 
     implementation(projects.domain)
     implementation(projects.data.source)

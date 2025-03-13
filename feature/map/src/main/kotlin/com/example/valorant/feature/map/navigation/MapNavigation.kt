@@ -1,32 +1,28 @@
 package com.example.valorant.feature.map.navigation
 
-import androidx.compose.runtime.remember
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.example.valorant.feature.map.MapScreen
+import kotlinx.serialization.Serializable
 
-const val MAP_ROUTE = "map_route"
+@Serializable
+data class MapRoute(val mapId: String)
 
-fun NavController.navigateToMap(uuid: String, navOptions: NavOptions? = null) = navigate("${MAP_ROUTE}?uuid=$uuid", navOptions)
+fun NavController.navigateToMap(mapId: String, navOptions: NavOptions? = null) {
+    navigate(route = MapRoute(mapId), navOptions)
+}
 
 fun NavGraphBuilder.mapScreen(
-    onBackPressed: () -> Boolean,
+    onBackClick: () -> Boolean,
 ) {
-    composable(
-        "$MAP_ROUTE?uuid={uuid}",
-        arguments = listOf(
-            navArgument("uuid") { type = NavType.StringType },
-        ),
-    ) {
-        val uuid = remember { it.arguments?.getString("uuid") }
+    composable<MapRoute> { backStackEntry ->
+        val mapId = backStackEntry.arguments?.getString("mapId") ?: throw IllegalArgumentException("MapScreen requires a non-null id")
 
         MapScreen(
-            uuid = uuid ?: throw IllegalArgumentException("MapScreen requires a non-null uuid"),
-            onBackPressed = onBackPressed,
+            mapId = mapId,
+            onBackClick = onBackClick,
         )
     }
 }

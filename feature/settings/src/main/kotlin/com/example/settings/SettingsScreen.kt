@@ -13,9 +13,7 @@ import com.example.valorant.core.uikit.util.DefaultPreview
 
 @Composable
 internal fun SettingsScreen(
-    onBackPressed: () -> Boolean,
     viewModel: SettingsViewModel = hiltViewModel(),
-    uuid: String,
 ) {
     SettingsUI()
 }

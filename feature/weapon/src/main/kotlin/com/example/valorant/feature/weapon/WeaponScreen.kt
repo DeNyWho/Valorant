@@ -14,8 +14,8 @@ import com.example.valorant.core.uikit.util.DefaultPreview
 @Composable
 internal fun WeaponScreen(
     viewModel: WeaponViewModel = hiltViewModel(),
-    onBackPressed: () -> Boolean,
-    uuid: String,
+    weaponId: String,
+    onBackClick: () -> Boolean,
 ) {
     WeaponUI()
 }
