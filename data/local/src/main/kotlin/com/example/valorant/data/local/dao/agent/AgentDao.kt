@@ -9,7 +9,6 @@ import com.example.valorant.data.local.model.agent.AgentAbilityEntity
 import com.example.valorant.data.local.model.agent.AgentEntity
 import com.example.valorant.data.local.model.agent.AgentRoleEntity
 import com.example.valorant.data.local.model.agent.AgentWithDetails
-import com.example.valorant.domain.model.agent.role.AgentRole
 import kotlinx.coroutines.flow.Flow
 
 @Dao

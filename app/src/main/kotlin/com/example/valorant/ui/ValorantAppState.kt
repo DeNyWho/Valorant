@@ -15,7 +15,6 @@ import com.example.agents.navigation.navigateToAgents
 import com.example.maps.navigation.navigateToMaps
 import com.example.settings.navigation.navigateToSettings
 import com.example.valorant.core.common.util.network.NetworkMonitor
-import com.example.valorant.feature.map.navigation.navigateToMap
 import com.example.valorant.navigation.TopLevelDestination
 import com.example.weapons.navigation.navigateToWeapons
 import kotlinx.coroutines.CoroutineScope

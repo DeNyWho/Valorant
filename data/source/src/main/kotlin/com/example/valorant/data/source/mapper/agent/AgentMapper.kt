@@ -3,8 +3,8 @@ package com.example.valorant.data.source.mapper.agent
 import com.example.valorant.data.local.model.agent.AgentAbilityEntity
 import com.example.valorant.data.local.model.agent.AgentEntity
 import com.example.valorant.data.local.model.agent.AgentRoleEntity
-import com.example.valorant.data.network.model.dto.agent.abilities.AgentAbilitiesDTO
 import com.example.valorant.data.network.model.dto.agent.AgentDTO
+import com.example.valorant.data.network.model.dto.agent.abilities.AgentAbilitiesDTO
 import com.example.valorant.data.network.model.dto.agent.light.AgentLightDTO
 import com.example.valorant.data.network.model.dto.agent.role.AgentRoleDTO
 import com.example.valorant.domain.model.agent.abilities.AgentAbility

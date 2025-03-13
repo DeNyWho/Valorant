@@ -21,15 +21,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 internal class AgentRepositoryImpl @Inject constructor(
     private val agentService: AgentService,
     private val agentDao: AgentDao,
 ): AgentRepository {
-
     override fun getAgents(role: AgentRole?): Flow<StateListWrapper<AgentLight>> {
         return flow {
             val localAgents = agentDao.getAllAgents(role?.uuid)
@@ -69,27 +66,25 @@ internal class AgentRepositoryImpl @Inject constructor(
             val agentWithDetails = agentDao.getAgentWithDetails(uuid)
             if (agentWithDetails != null) {
                 emit(StateWrapper(agentWithDetails.toDetail()))
-            }
+            } else {
+                when(val agentResult = agentService.getAgentDetail(uuid)) {
+                    is Resource.Success -> {
+                        val agentData = agentResult.data.data
+                        if (agentData != null) {
+                            saveAgentsToDatabase(listOf(agentData))
 
-            when(val agentResult = agentService.getAgentDetail(uuid)) {
-                is Resource.Success -> {
-                    val agentData = agentResult.data.data
-                    if (agentData != null) {
-                        saveAgentsToDatabase(listOf(agentData))
-
-                        val savedAgent = agentDao.getAgentWithDetails(uuid)
-                        if (savedAgent != null) {
-                            emit(StateWrapper(savedAgent.toDetail()))
+                            val savedAgent = agentDao.getAgentWithDetails(uuid)
+                            if (savedAgent != null) {
+                                emit(StateWrapper(savedAgent.toDetail()))
+                            }
                         }
                     }
-                }
-                is Resource.Error -> {
-                    if (agentWithDetails == null) {
+                    is Resource.Error -> {
                         emit(StateWrapper(error = agentResult.error))
                     }
-                }
-                is Resource.Loading -> {
-                    emit(StateWrapper.loading())
+                    is Resource.Loading -> {
+                        emit(StateWrapper.loading())
+                    }
                 }
             }
         }.flowOn(Dispatchers.IO)

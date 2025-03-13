@@ -14,8 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.agents.components.item.CardAgentGridItem
@@ -23,7 +21,6 @@ import com.example.agents.components.item.CardAgentGridItemDefaults
 import com.example.agents.components.item.showCardAgentGridItemShimmer
 import com.example.agents.components.top.AgentsTopBar
 import com.example.agents.model.state.AgentsUiState
-import com.example.valorant.core.uikit.component.progress.CircularProgress
 import com.example.valorant.core.uikit.util.LocalScreenInfo
 import com.example.valorant.core.uikit.util.onUpdateShimmerBounds
 import com.example.valorant.domain.model.agent.light.AgentLight
