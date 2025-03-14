@@ -6,6 +6,7 @@ data class MapDetail(
     val tacticalDescription: String?,
     val coordinates: String? = null,
     val displayIcon: String? = null,
+    val listViewIcon: String,
     val splash: String,
     val stylizedBackgroundImage: String? = null,
     val xMultiplier: Double?,

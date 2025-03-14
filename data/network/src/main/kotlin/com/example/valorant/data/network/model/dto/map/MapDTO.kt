@@ -10,11 +10,13 @@ data class MapDTO(
     @SerialName("displayName")
     val displayName: String,
     @SerialName("tacticalDescription")
-    val tacticalDescription: String,
+    val tacticalDescription: String? = null,
     @SerialName("coordinates")
     val coordinates: String? = null,
     @SerialName("displayIcon")
     val displayIcon: String? = null,
+    @SerialName("listViewIcon")
+    val listViewIcon: String,
     @SerialName("splash")
     val splash: String,
     @SerialName("stylizedBackgroundImage")

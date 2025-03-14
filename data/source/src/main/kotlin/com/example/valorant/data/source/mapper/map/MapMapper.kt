@@ -23,6 +23,7 @@ fun MapDTO.toEntity(): MapEntity {
         tacticalDescription = tacticalDescription,
         coordinates = coordinates,
         displayIcon = displayIcon,
+        listViewIcon = listViewIcon,
         splash = splash,
         stylizedBackgroundImage = stylizedBackgroundImage,
         xMultiplier = xMultiplier,

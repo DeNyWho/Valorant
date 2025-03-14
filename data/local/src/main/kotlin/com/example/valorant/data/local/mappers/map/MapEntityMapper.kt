@@ -22,6 +22,7 @@ fun MapWithCallouts.toDetail(): MapDetail {
         tacticalDescription = map.tacticalDescription,
         coordinates = map.coordinates,
         displayIcon = map.displayIcon,
+        listViewIcon = map.listViewIcon,
         splash = map.splash,
         stylizedBackgroundImage = map.stylizedBackgroundImage,
         xMultiplier = map.xMultiplier,

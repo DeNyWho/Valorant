@@ -114,6 +114,11 @@ internal class MapRepositoryImpl @Inject constructor(
     private suspend fun saveMapsToDatabase(maps: List<MapDTO>) {
         maps.forEach { map ->
             try {
+                // Map with ID 5914d1e0-40c4-cfdd-6b88-eba06347686c have bugs with images, so we just skip it
+                if(map.uuid == "5914d1e0-40c4-cfdd-6b88-eba06347686c") {
+                    return@forEach
+                }
+
                 val mapEntity = map.toEntity()
                 val calloutEntities = map.toCalloutEntities()
 
