@@ -1,7 +1,9 @@
 package com.example.valorant.data.source.repository.agent
 
 import com.example.valorant.data.local.dao.DataUpdateDao
+import com.example.valorant.data.local.dao.agent.AgentAbilityDao
 import com.example.valorant.data.local.dao.agent.AgentDao
+import com.example.valorant.data.local.dao.agent.AgentRoleDao
 import com.example.valorant.data.local.mappers.agent.toDetail
 import com.example.valorant.data.local.mappers.agent.toLight
 import com.example.valorant.data.local.mappers.agent.toRole
@@ -28,6 +30,8 @@ import javax.inject.Inject
 internal class AgentRepositoryImpl @Inject constructor(
     private val agentService: AgentService,
     private val agentDao: AgentDao,
+    private val agentRoleDao: AgentRoleDao,
+    private val agentAbilityDao: AgentAbilityDao,
     private val dataUpdateDao: DataUpdateDao,
 ): AgentRepository {
     override fun getAgents(role: AgentRole?): Flow<StateListWrapper<AgentLight>> {
@@ -56,7 +60,7 @@ internal class AgentRepositoryImpl @Inject constructor(
                                 val dataUpdate = DataUpdateEntity(
                                     dataType = DATA_TYPE,
                                     lastUpdatedAt = System.currentTimeMillis(),
-                                    nextUpdateAt = nextUpdateAt
+                                    nextUpdateAt = nextUpdateAt,
                                 )
                                 dataUpdateDao.insertUpdate(dataUpdate)
                             }
@@ -110,7 +114,7 @@ internal class AgentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAgentsRoles(): Flow<StateListWrapper<AgentRole>> {
-        val rolesFlow = agentDao.getAllRoles()
+        val rolesFlow = agentRoleDao.getAllRoles()
         val agentsFlow = agentDao.getAllAgentsFlow(null)
 
         return combine(rolesFlow, agentsFlow) { roles, agents ->
@@ -127,12 +131,12 @@ internal class AgentRepositoryImpl @Inject constructor(
             AgentRoleEntity(
                 uuid = agent.role.uuid,
                 displayName = agent.role.displayName,
-                displayIcon = agent.role.displayIcon
+                displayIcon = agent.role.displayIcon,
             )
         }.distinctBy { it.uuid }
 
         uniqueRoles.forEach { role ->
-            agentDao.insertRole(role)
+            agentRoleDao.insertRole(role)
         }
 
         agents.forEach { agent ->
@@ -146,7 +150,7 @@ internal class AgentRepositoryImpl @Inject constructor(
                     fullPortraitV2 = agent.fullPortraitV2,
                     background = agent.background,
                     roleUuid = agent.role.uuid,
-                    characterTags = agent.characterTags
+                    characterTags = agent.characterTags,
                 )
                 agentDao.insertAgent(agentEntity)
 
@@ -156,10 +160,10 @@ internal class AgentRepositoryImpl @Inject constructor(
                         slot = ability.slot.toString(),
                         displayName = ability.displayName,
                         description = ability.description,
-                        displayIcon = ability.displayIcon
+                        displayIcon = ability.displayIcon,
                     )
                 }
-                agentDao.insertAbilities(abilities)
+                agentAbilityDao.insertAbilities(abilities)
             } catch (e: Exception) {
                 throw RuntimeException("Failed to save agent ${agent.uuid} (${agent.displayName}): ${e.message}")
             }

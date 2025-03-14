@@ -1,10 +1,10 @@
-package com.example.valorant.data.network.model.dto.map.detail
+package com.example.valorant.data.network.model.dto.map
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MapDetailDTO(
+data class MapDTO(
     @SerialName("uuid")
     val uuid: String,
     @SerialName("displayName")
@@ -20,13 +20,13 @@ data class MapDetailDTO(
     @SerialName("stylizedBackgroundImage")
     val stylizedBackgroundImage: String? = null,
     @SerialName("xMultiplier")
-    val xMultiplier: Double? = null,
+    val xMultiplier: Double,
     @SerialName("yMultiplier")
-    val yMultiplier: Double? = null,
+    val yMultiplier: Double,
     @SerialName("xScalarToAdd")
-    val xScalarToAdd: Double?,
+    val xScalarToAdd: Double,
     @SerialName("yScalarToAdd")
-    val yScalarToAdd: Double?,
+    val yScalarToAdd: Double,
     @SerialName("callouts")
     val callouts: List<CalloutDTO>? = null,
 )

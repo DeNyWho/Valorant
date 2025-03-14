@@ -7,14 +7,14 @@ data class AgentWithDetails(
     @Embedded val agent: AgentEntity,
 
     @Relation(
-        parentColumn = "roleUuid",
+        parentColumn = "role_uuid",
         entityColumn = "uuid"
     )
     val role: AgentRoleEntity,
 
     @Relation(
         parentColumn = "uuid",
-        entityColumn = "agentUuid"
+        entityColumn = "agent_uuid"
     )
     val ability: List<AgentAbilityEntity>,
 )

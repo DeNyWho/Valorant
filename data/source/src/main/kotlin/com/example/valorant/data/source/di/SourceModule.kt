@@ -2,7 +2,9 @@ package com.example.valorant.data.source.di
 
 import com.example.valorant.data.datastore.source.UserDataSource
 import com.example.valorant.data.local.dao.DataUpdateDao
+import com.example.valorant.data.local.dao.agent.AgentAbilityDao
 import com.example.valorant.data.local.dao.agent.AgentDao
+import com.example.valorant.data.local.dao.agent.AgentRoleDao
 import com.example.valorant.data.network.service.agent.AgentService
 import com.example.valorant.data.network.service.map.MapService
 import com.example.valorant.data.network.service.weapon.WeaponService
@@ -29,11 +31,15 @@ internal object SourceModule {
     fun provideAgentRepository(
         agentService: AgentService,
         agentDao: AgentDao,
+        agentRoleDao: AgentRoleDao,
+        agentAbilityDao: AgentAbilityDao,
         dataUpdateDao: DataUpdateDao,
     ): AgentRepository {
         return AgentRepositoryImpl(
             agentService = agentService,
             agentDao = agentDao,
+            agentRoleDao = agentRoleDao,
+            agentAbilityDao = agentAbilityDao,
             dataUpdateDao = dataUpdateDao,
         )
     }

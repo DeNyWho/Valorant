@@ -1,4 +1,4 @@
-package com.example.valorant.data.network.model.dto.map.detail
+package com.example.valorant.data.network.model.dto.map
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

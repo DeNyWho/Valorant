@@ -12,22 +12,30 @@ import androidx.room.PrimaryKey
         ForeignKey(
             entity = AgentRoleEntity::class,
             parentColumns = ["uuid"],
-            childColumns = ["roleUuid"],
+            childColumns = ["role_uuid"],
             onDelete = ForeignKey.CASCADE,
         )
     ],
-    indices = [Index("roleUuid")],
+    indices = [Index("role_uuid")],
 )
 data class AgentEntity(
     @PrimaryKey
+    @ColumnInfo(name = "uuid")
     val uuid: String,
+    @ColumnInfo(name = "display_name")
     val displayName: String,
+    @ColumnInfo(name = "display_icon")
     val displayIcon: String,
+    @ColumnInfo(name = "description", typeAffinity = ColumnInfo.TEXT)
     val description: String,
+    @ColumnInfo(name = "full_portrait")
     val fullPortrait: String,
+    @ColumnInfo(name = "full_portrait_v2")
     val fullPortraitV2: String,
+    @ColumnInfo(name = "background")
     val background: String,
+    @ColumnInfo(name = "role_uuid")
     val roleUuid: String,
-    @ColumnInfo(typeAffinity = ColumnInfo.TEXT)
+    @ColumnInfo(name = "character_tags")
     val characterTags: List<String>?
 )

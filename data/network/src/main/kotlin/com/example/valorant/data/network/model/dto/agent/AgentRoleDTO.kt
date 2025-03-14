@@ -1,14 +1,14 @@
-package com.example.valorant.data.network.model.dto.map.light
+package com.example.valorant.data.network.model.dto.agent
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MapLightDTO(
+data class AgentRoleDTO(
     @SerialName("uuid")
     val uuid: String,
     @SerialName("displayName")
     val displayName: String,
-    @SerialName("splash")
-    val splash: String? = null,
+    @SerialName("displayIcon")
+    val displayIcon: String,
 )

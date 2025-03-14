@@ -1,4 +1,4 @@
-package com.example.valorant.data.network.model.dto.agent.abilities
+package com.example.valorant.data.network.model.dto.agent
 
 import com.example.valorant.domain.model.agent.abilities.AgentAbilityType
 import kotlinx.serialization.SerialName

@@ -1,7 +1,5 @@
 package com.example.valorant.data.network.model.dto.agent
 
-import com.example.valorant.data.network.model.dto.agent.abilities.AgentAbilitiesDTO
-import com.example.valorant.data.network.model.dto.agent.role.AgentRoleDTO
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
