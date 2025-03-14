@@ -8,7 +8,7 @@ import com.example.valorant.data.local.dao.DataUpdateDao
 import com.example.valorant.data.local.dao.agent.AgentAbilityDao
 import com.example.valorant.data.local.dao.agent.AgentDao
 import com.example.valorant.data.local.dao.agent.AgentRoleDao
-import com.example.valorant.data.local.dao.map.CalloutDao
+import com.example.valorant.data.local.dao.map.MapCalloutDao
 import com.example.valorant.data.local.dao.map.MapDao
 import com.example.valorant.data.local.model.DataUpdateEntity
 import com.example.valorant.data.local.model.agent.AgentAbilityEntity
@@ -35,6 +35,6 @@ internal abstract class ValorantDatabase : RoomDatabase() {
     abstract fun agentAbilityDao(): AgentAbilityDao
     abstract fun agentRoleDao(): AgentRoleDao
     abstract fun mapDao(): MapDao
-    abstract fun calloutDao(): CalloutDao
+    abstract fun calloutDao(): MapCalloutDao
     abstract fun dataUpdateDao(): DataUpdateDao
 }

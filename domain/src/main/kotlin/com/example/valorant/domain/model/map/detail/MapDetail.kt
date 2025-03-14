@@ -3,7 +3,7 @@ package com.example.valorant.domain.model.map.detail
 data class MapDetail(
     val uuid: String,
     val displayName: String,
-    val tacticalDescription: String,
+    val tacticalDescription: String?,
     val coordinates: String? = null,
     val displayIcon: String? = null,
     val splash: String,

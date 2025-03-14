@@ -24,5 +24,5 @@ data class AgentDTO(
     @SerialName("role")
     val role: AgentRoleDTO,
     @SerialName("abilities")
-    val abilities: List<AgentAbilitiesDTO>,
+    val abilities: List<AgentAbilityDTO>,
 )

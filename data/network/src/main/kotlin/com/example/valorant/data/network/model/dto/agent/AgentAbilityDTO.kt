@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AgentAbilitiesDTO(
+data class AgentAbilityDTO(
     @SerialName("slot")
     val slot: AgentAbilityType,
     @SerialName("displayName")

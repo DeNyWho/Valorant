@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "1bfed964bcff44683dc4fd86e4db4cf8",
+    "identityHash": "9901ec5754e6e29cd06e91ed18f96311",
     "entities": [
       {
         "tableName": "agents",
@@ -195,7 +195,7 @@
       },
       {
         "tableName": "maps",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `display_name` TEXT NOT NULL, `tactical_description` TEXT, `coordinates` TEXT, `display_icon` TEXT, `list_view_icon` TEXT NOT NULL, `list_view_icon_tall` TEXT NOT NULL, `splash` TEXT NOT NULL, `stylized_background_image` TEXT, `x_multiplier` REAL NOT NULL, `y_multiplier` REAL NOT NULL, `x_scalar_to_add` REAL NOT NULL, `y_scalar_to_add` REAL NOT NULL, PRIMARY KEY(`uuid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `display_name` TEXT NOT NULL, `tactical_description` TEXT, `coordinates` TEXT, `display_icon` TEXT, `splash` TEXT NOT NULL, `stylized_background_image` TEXT, `x_multiplier` REAL NOT NULL, `y_multiplier` REAL NOT NULL, `x_scalar_to_add` REAL NOT NULL, `y_scalar_to_add` REAL NOT NULL, PRIMARY KEY(`uuid`))",
         "fields": [
           {
             "fieldPath": "uuid",
@@ -226,18 +226,6 @@
             "columnName": "display_icon",
             "affinity": "TEXT",
             "notNull": false
-          },
-          {
-            "fieldPath": "listViewIcon",
-            "columnName": "list_view_icon",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "listViewIconTall",
-            "columnName": "list_view_icon_tall",
-            "affinity": "TEXT",
-            "notNull": true
           },
           {
             "fieldPath": "splash",
@@ -393,7 +381,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1bfed964bcff44683dc4fd86e4db4cf8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9901ec5754e6e29cd06e91ed18f96311')"
     ]
   }
 }

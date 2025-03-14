@@ -5,9 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.valorant.data.local.model.agent.AgentAbilityEntity
 import com.example.valorant.data.local.model.agent.AgentEntity
-import com.example.valorant.data.local.model.agent.AgentRoleEntity
 import com.example.valorant.data.local.model.agent.AgentWithDetails
 import kotlinx.coroutines.flow.Flow
 

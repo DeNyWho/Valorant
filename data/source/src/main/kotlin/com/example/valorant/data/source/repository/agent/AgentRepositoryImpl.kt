@@ -8,11 +8,10 @@ import com.example.valorant.data.local.mappers.agent.toDetail
 import com.example.valorant.data.local.mappers.agent.toLight
 import com.example.valorant.data.local.mappers.agent.toRole
 import com.example.valorant.data.local.model.DataUpdateEntity
-import com.example.valorant.data.local.model.agent.AgentAbilityEntity
-import com.example.valorant.data.local.model.agent.AgentEntity
 import com.example.valorant.data.local.model.agent.AgentRoleEntity
 import com.example.valorant.data.network.model.dto.agent.AgentDTO
 import com.example.valorant.data.network.service.agent.AgentService
+import com.example.valorant.data.source.mapper.agent.toEntity
 import com.example.valorant.domain.model.agent.detail.AgentDetail
 import com.example.valorant.domain.model.agent.light.AgentLight
 import com.example.valorant.domain.model.agent.role.AgentRole
@@ -141,27 +140,11 @@ internal class AgentRepositoryImpl @Inject constructor(
 
         agents.forEach { agent ->
             try {
-                val agentEntity = AgentEntity(
-                    uuid = agent.uuid,
-                    displayName = agent.displayName,
-                    displayIcon = agent.displayIcon,
-                    description = agent.description,
-                    fullPortrait = agent.fullPortrait,
-                    fullPortraitV2 = agent.fullPortraitV2,
-                    background = agent.background,
-                    roleUuid = agent.role.uuid,
-                    characterTags = agent.characterTags,
-                )
+                val agentEntity = agent.toEntity()
                 agentDao.insertAgent(agentEntity)
 
                 val abilities = agent.abilities.map { ability ->
-                    AgentAbilityEntity(
-                        agentUuid = agent.uuid,
-                        slot = ability.slot.toString(),
-                        displayName = ability.displayName,
-                        description = ability.description,
-                        displayIcon = ability.displayIcon,
-                    )
+                    ability.toEntity(agent.uuid)
                 }
                 agentAbilityDao.insertAbilities(abilities)
             } catch (e: Exception) {

@@ -17,10 +17,6 @@ data class MapEntity(
     val coordinates: String?,
     @ColumnInfo(name = "display_icon")
     val displayIcon: String?,
-    @ColumnInfo(name = "list_view_icon")
-    val listViewIcon: String,
-    @ColumnInfo(name = "list_view_icon_tall")
-    val listViewIconTall: String,
     @ColumnInfo(name = "splash")
     val splash: String,
     @ColumnInfo(name = "stylized_background_image")

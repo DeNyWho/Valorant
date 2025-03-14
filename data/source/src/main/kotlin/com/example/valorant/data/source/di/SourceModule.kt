@@ -5,6 +5,8 @@ import com.example.valorant.data.local.dao.DataUpdateDao
 import com.example.valorant.data.local.dao.agent.AgentAbilityDao
 import com.example.valorant.data.local.dao.agent.AgentDao
 import com.example.valorant.data.local.dao.agent.AgentRoleDao
+import com.example.valorant.data.local.dao.map.MapCalloutDao
+import com.example.valorant.data.local.dao.map.MapDao
 import com.example.valorant.data.network.service.agent.AgentService
 import com.example.valorant.data.network.service.map.MapService
 import com.example.valorant.data.network.service.weapon.WeaponService
@@ -58,9 +60,15 @@ internal object SourceModule {
     @Singleton
     fun provideMapRepository(
         mapService: MapService,
+        mapDao: MapDao,
+        mapCalloutDao: MapCalloutDao,
+        dataUpdateDao: DataUpdateDao,
     ): MapRepository {
         return MapRepositoryImpl(
             mapService = mapService,
+            mapDao = mapDao,
+            mapCalloutDao = mapCalloutDao,
+            dataUpdateDao = dataUpdateDao,
         )
     }
 
