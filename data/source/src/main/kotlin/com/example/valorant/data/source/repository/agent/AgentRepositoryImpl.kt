@@ -117,6 +117,7 @@ internal class AgentRepositoryImpl @Inject constructor(
         val agentsFlow = agentDao.getAllAgentsFlow(null)
 
         return combine(rolesFlow, agentsFlow) { roles, agents ->
+            StateListWrapper.loading<AgentRole>()
             if (agents.isEmpty()) {
                 StateListWrapper.loading()
             } else {
