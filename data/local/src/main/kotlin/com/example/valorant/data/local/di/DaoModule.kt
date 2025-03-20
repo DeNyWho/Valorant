@@ -7,6 +7,8 @@ import com.example.valorant.data.local.dao.agent.AgentDao
 import com.example.valorant.data.local.dao.agent.AgentRoleDao
 import com.example.valorant.data.local.dao.map.MapCalloutDao
 import com.example.valorant.data.local.dao.map.MapDao
+import com.example.valorant.data.local.dao.weapon.WeaponDao
+import com.example.valorant.data.local.dao.weapon.WeaponShopDataDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,6 +41,16 @@ internal object DaoModule {
     fun provideCalloutDao(
         database: ValorantDatabase,
     ): MapCalloutDao = database.calloutDao()
+
+    @Provides
+    fun provideWeaponDao(
+        database: ValorantDatabase,
+    ): WeaponDao = database.weaponDao()
+
+    @Provides
+    fun provideWeaponShopDataDao(
+        database: ValorantDatabase,
+    ): WeaponShopDataDao = database.weaponShopDataDao()
 
     @Provides
     fun provideDataUpdateDao(

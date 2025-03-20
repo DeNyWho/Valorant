@@ -1,11 +1,11 @@
-package com.example.valorant.data.network.model.dto.weapon.light
+package com.example.valorant.data.network.model.dto.weapon
 
 import com.example.valorant.data.network.model.dto.weapon.detail.stats.ShopDataDTO
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class WeaponLightDTO(
+data class WeaponDTO(
     @SerialName("uuid")
     val uuid: String,
     @SerialName("displayName")

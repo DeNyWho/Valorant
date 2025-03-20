@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "f003eee6ca5169e49fa65ed14b9b6f40",
+    "identityHash": "a961c645030354d09511497152959407",
     "entities": [
       {
         "tableName": "agents",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `display_name` TEXT NOT NULL, `display_icon` TEXT NOT NULL, `description` TEXT NOT NULL, `full_portrait` TEXT NOT NULL, `full_portrait_v2` TEXT NOT NULL, `background` TEXT NOT NULL, `character_tags` TEXT, PRIMARY KEY(`uuid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `display_name` TEXT NOT NULL, `display_icon` TEXT NOT NULL, `description` TEXT NOT NULL, `full_portrait` TEXT NOT NULL, `full_portrait_v2` TEXT NOT NULL, `background` TEXT NOT NULL, `role_uuid` TEXT NOT NULL, `character_tags` TEXT, PRIMARY KEY(`uuid`), FOREIGN KEY(`role_uuid`) REFERENCES `agent_roles`(`uuid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "uuid",
@@ -51,6 +51,12 @@
             "notNull": true
           },
           {
+            "fieldPath": "roleUuid",
+            "columnName": "role_uuid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "characterTags",
             "columnName": "character_tags",
             "affinity": "TEXT",
@@ -63,8 +69,30 @@
             "uuid"
           ]
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_agents_role_uuid",
+            "unique": false,
+            "columnNames": [
+              "role_uuid"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_agents_role_uuid` ON `${TABLE_NAME}` (`role_uuid`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "agent_roles",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "role_uuid"
+            ],
+            "referencedColumns": [
+              "uuid"
+            ]
+          }
+        ]
       },
       {
         "tableName": "agent_roles",
@@ -97,75 +125,6 @@
         },
         "indices": [],
         "foreignKeys": []
-      },
-      {
-        "tableName": "agent_role_cross_ref",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`agent_uuid` TEXT NOT NULL, `role_uuid` TEXT NOT NULL, PRIMARY KEY(`agent_uuid`, `role_uuid`), FOREIGN KEY(`agent_uuid`) REFERENCES `agents`(`uuid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`role_uuid`) REFERENCES `agent_roles`(`uuid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
-        "fields": [
-          {
-            "fieldPath": "agentUuid",
-            "columnName": "agent_uuid",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "roleUuid",
-            "columnName": "role_uuid",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "agent_uuid",
-            "role_uuid"
-          ]
-        },
-        "indices": [
-          {
-            "name": "index_agent_role_cross_ref_agent_uuid",
-            "unique": false,
-            "columnNames": [
-              "agent_uuid"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_agent_role_cross_ref_agent_uuid` ON `${TABLE_NAME}` (`agent_uuid`)"
-          },
-          {
-            "name": "index_agent_role_cross_ref_role_uuid",
-            "unique": false,
-            "columnNames": [
-              "role_uuid"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_agent_role_cross_ref_role_uuid` ON `${TABLE_NAME}` (`role_uuid`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "agents",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "agent_uuid"
-            ],
-            "referencedColumns": [
-              "uuid"
-            ]
-          },
-          {
-            "table": "agent_roles",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "role_uuid"
-            ],
-            "referencedColumns": [
-              "uuid"
-            ]
-          }
-        ]
       },
       {
         "tableName": "agent_abilities",
@@ -423,12 +382,104 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "weapons",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `display_name` TEXT NOT NULL, `display_icon` TEXT NOT NULL, PRIMARY KEY(`uuid`))",
+        "fields": [
+          {
+            "fieldPath": "uuid",
+            "columnName": "uuid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "display_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayIcon",
+            "columnName": "display_icon",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "uuid"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "weapons_shop_data",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`weapon_uuid` TEXT NOT NULL, `cost` INTEGER, `category` TEXT, `category_text` TEXT, PRIMARY KEY(`weapon_uuid`), FOREIGN KEY(`weapon_uuid`) REFERENCES `weapons`(`uuid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "weaponUuid",
+            "columnName": "weapon_uuid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cost",
+            "columnName": "cost",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categoryText",
+            "columnName": "category_text",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "weapon_uuid"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_weapons_shop_data_weapon_uuid",
+            "unique": false,
+            "columnNames": [
+              "weapon_uuid"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_weapons_shop_data_weapon_uuid` ON `${TABLE_NAME}` (`weapon_uuid`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "weapons",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "weapon_uuid"
+            ],
+            "referencedColumns": [
+              "uuid"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f003eee6ca5169e49fa65ed14b9b6f40')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a961c645030354d09511497152959407')"
     ]
   }
 }

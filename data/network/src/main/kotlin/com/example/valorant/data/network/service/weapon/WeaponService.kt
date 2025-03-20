@@ -3,8 +3,8 @@ package com.example.valorant.data.network.service.weapon
 import com.example.valorant.data.network.api.ApiEndpoints
 import com.example.valorant.data.network.model.dto.common.ValorantApiDTO
 import com.example.valorant.data.network.model.dto.common.ValorantApiListDTO
+import com.example.valorant.data.network.model.dto.weapon.WeaponDTO
 import com.example.valorant.data.network.model.dto.weapon.detail.WeaponDetailDTO
-import com.example.valorant.data.network.model.dto.weapon.light.WeaponLightDTO
 import com.example.valorant.data.network.safeApiCall
 import com.example.valorant.domain.model.common.request.Resource
 import io.ktor.client.HttpClient
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class WeaponService @Inject constructor(
     private val client: HttpClient,
 ) {
-    suspend fun getWeapons(): Resource<ValorantApiListDTO<WeaponLightDTO>> {
+    suspend fun getWeapons(): Resource<ValorantApiListDTO<WeaponDTO>> {
         val request = HttpRequestBuilder().apply {
             method = HttpMethod.Get
             url {
@@ -24,7 +24,7 @@ class WeaponService @Inject constructor(
             }
         }
 
-        return safeApiCall<ValorantApiListDTO<WeaponLightDTO>>(client, request)
+        return safeApiCall<ValorantApiListDTO<WeaponDTO>>(client, request)
     }
 
     suspend fun getWeaponDetail(uuid: String): Resource<ValorantApiDTO<WeaponDetailDTO>> {
