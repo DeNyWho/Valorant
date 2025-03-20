@@ -62,6 +62,13 @@ internal fun valorantTypography(fontSizePrefs: FontSize): Typography {
             letterSpacing = 0.1.sp,
             fontFamily = TungstenFontFamily,
         ),
+        displayMedium = TextStyle(
+            fontWeight = FontWeight.Bold,
+            fontSize = (32 + fontSizePrefs.fontSizeExtra).sp,
+            lineHeight = ((32 + fontSizePrefs.fontSizeExtra) * lineHeightMultiplier).sp,
+            letterSpacing = 0.1.sp,
+            fontFamily = TungstenFontFamily,
+        ),
         displaySmall = TextStyle(
             fontWeight = FontWeight.Bold,
             fontSize = (16 + fontSizePrefs.fontSizeExtra).sp,
