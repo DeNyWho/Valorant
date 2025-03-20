@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="feature_agent_component_description_title">// Биография</string>
+    <string name="feature_agent_component_description_title">// Description</string>
+    <string name="feature_agent_component_ability_title">// Ability</string>
 </resources>
