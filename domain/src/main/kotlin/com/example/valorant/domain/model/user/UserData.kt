@@ -16,4 +16,7 @@ data class UserData(
 
     @SerialName("theme")
     val theme: ThemeType = ThemeType.SYSTEM,
+
+    @SerialName("language")
+    val language: LanguageType = LanguageType.SYSTEM,
 )

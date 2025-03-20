@@ -20,7 +20,6 @@ import com.example.valorant.data.local.model.map.MapCalloutEntity
 import com.example.valorant.data.local.model.map.MapEntity
 import com.example.valorant.data.local.model.weapon.WeaponEntity
 import com.example.valorant.data.local.model.weapon.WeaponShopDataEntity
-import com.example.valorant.data.local.model.weapon.WeaponWithShop
 
 @Database(
     entities = [
@@ -33,7 +32,7 @@ import com.example.valorant.data.local.model.weapon.WeaponWithShop
         WeaponEntity::class,
         WeaponShopDataEntity::class,
     ],
-    version = 4,
+    version = 5,
     exportSchema = true,
 )
 @TypeConverters(StringListConverter::class)

@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "agents",
@@ -16,10 +15,13 @@ import androidx.room.PrimaryKey
             onDelete = ForeignKey.CASCADE,
         )
     ],
-    indices = [Index("role_uuid")],
+    indices = [
+        Index("role_uuid"),
+        Index(value = ["uuid"], unique = true)
+    ],
+    primaryKeys = ["uuid", "language_code"],
 )
 data class AgentEntity(
-    @PrimaryKey
     @ColumnInfo(name = "uuid")
     val uuid: String,
     @ColumnInfo(name = "display_name")
@@ -37,5 +39,7 @@ data class AgentEntity(
     @ColumnInfo(name = "role_uuid")
     val roleUuid: String,
     @ColumnInfo(name = "character_tags")
-    val characterTags: List<String>?
+    val characterTags: List<String>?,
+    @ColumnInfo(name = "language_code")
+    val languageCode: String,
 )

@@ -3,6 +3,7 @@ package com.example.valorant.data.datastore.source
 import androidx.datastore.core.DataStore
 import com.example.valorant.domain.model.common.device.FontSize
 import com.example.valorant.domain.model.common.device.ThemeType
+import com.example.valorant.domain.model.user.LanguageType
 import com.example.valorant.domain.model.user.UserData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -15,6 +16,7 @@ class UserDataSource @Inject constructor(
         put("is_first_launch", dataStore.data.map { it.isFirstLaunch })
         put("font_size", dataStore.data.map { it.fontSize })
         put("theme", dataStore.data.map { it.theme })
+        put("language", dataStore.data.map { it.language })
     }
 
     suspend fun updateFirstLaunch(isFirstLaunch: Boolean) {
@@ -37,6 +39,14 @@ class UserDataSource @Inject constructor(
         dataStore.updateData { userData ->
             userData.copy(
                 theme = theme,
+            )
+        }
+    }
+
+    suspend fun updateLanguage(language: LanguageType) {
+        dataStore.updateData { userData ->
+            userData.copy(
+                language = language,
             )
         }
     }

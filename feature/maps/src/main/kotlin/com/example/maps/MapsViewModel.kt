@@ -2,7 +2,6 @@ package com.example.maps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.valorant.domain.model.agent.light.AgentLight
 import com.example.valorant.domain.model.map.light.MapLight
 import com.example.valorant.domain.state.StateListWrapper
 import com.example.valorant.domain.usecase.map.GetMapsUseCase

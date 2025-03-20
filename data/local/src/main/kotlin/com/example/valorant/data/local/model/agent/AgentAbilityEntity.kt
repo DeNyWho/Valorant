@@ -12,11 +12,11 @@ import androidx.room.Index
             entity = AgentEntity::class,
             parentColumns = ["uuid"],
             childColumns = ["agent_uuid"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
         )
     ],
     indices = [Index("agent_uuid")],
-    primaryKeys = ["agent_uuid", "slot"],
+    primaryKeys = ["agent_uuid", "slot", "language_code"],
 )
 data class AgentAbilityEntity(
     @ColumnInfo(name = "agent_uuid")
@@ -28,5 +28,7 @@ data class AgentAbilityEntity(
     @ColumnInfo(name = "description")
     val description: String,
     @ColumnInfo("display_icon")
-    val displayIcon: String?
+    val displayIcon: String?,
+    @ColumnInfo(name = "language_code")
+    val languageCode: String,
 )

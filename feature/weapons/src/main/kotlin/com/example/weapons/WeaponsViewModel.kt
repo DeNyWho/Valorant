@@ -2,10 +2,8 @@ package com.example.weapons
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.valorant.domain.model.agent.light.AgentLight
 import com.example.valorant.domain.model.weapon.light.WeaponLight
 import com.example.valorant.domain.state.StateListWrapper
-import com.example.valorant.domain.usecase.map.GetMapsUseCase
 import com.example.valorant.domain.usecase.weapon.GetWeaponsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

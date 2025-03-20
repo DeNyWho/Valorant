@@ -2,11 +2,14 @@ package com.example.valorant
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.valorant.core.common.util.language.LanguageManager
 import com.example.valorant.domain.model.common.device.FontSize
 import com.example.valorant.domain.model.common.device.ScreenType
 import com.example.valorant.domain.model.common.device.ThemeType
+import com.example.valorant.domain.model.user.LanguageType
 import com.example.valorant.domain.usecase.settings.first_launch.FirstLaunchUseCase
 import com.example.valorant.domain.usecase.settings.font.FontSizeUseCase
+import com.example.valorant.domain.usecase.settings.language.LanguageSettingsUseCase
 import com.example.valorant.domain.usecase.settings.theme.ThemeSettingsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,12 +22,13 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val fontSizeUseCase: FontSizeUseCase,
     private val firstLaunchUseCase: FirstLaunchUseCase,
     private val themeSettingsUseCase: ThemeSettingsUseCase,
+    private val languageSettingsUseCase: LanguageSettingsUseCase,
+    private val languageManager: LanguageManager,
 ) : ViewModel() {
     private val _isFirstLaunch = MutableStateFlow<Boolean?>(null)
     val isFirstLaunch: StateFlow<Boolean?> = _isFirstLaunch
@@ -39,6 +43,9 @@ class MainViewModel @Inject constructor(
         MutableStateFlow(ThemeType.SYSTEM)
     val selectedTheme: StateFlow<ThemeType> = _selectedTheme.asStateFlow()
 
+    private val _selectedLanguage = MutableStateFlow(LanguageType.SYSTEM)
+    val selectedLanguage: StateFlow<LanguageType> = _selectedLanguage.asStateFlow()
+
     init {
         loadData()
     }
@@ -47,6 +54,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             launch { getFirstLaunch() }
             launch { getThemeSettings() }
+            launch { getLanguageSettings() }
         }
     }
 
@@ -62,6 +70,12 @@ class MainViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun getLanguageSettings() {
+        languageSettingsUseCase.language.onEach { value ->
+            _selectedLanguage.value = value
+        }.launchIn(viewModelScope)
+    }
+
     fun onFirstLaunch(screenType: ScreenType) {
         viewModelScope.launch {
             val initialFontSize = when (screenType) {
@@ -71,6 +85,9 @@ class MainViewModel @Inject constructor(
                 ScreenType.EXTRA_LARGE -> FontSize.EXTRA_LARGE
             }
             fontSizeUseCase.updateFontSize(initialFontSize)
+
+            val deviceLanguage = languageManager.getDeviceLanguage()
+            languageSettingsUseCase.updateLanguage(deviceLanguage)
         }
     }
 }

@@ -11,6 +11,7 @@ import com.example.valorant.domain.usecase.map.GetMapDetailUseCase
 import com.example.valorant.domain.usecase.map.GetMapsUseCase
 import com.example.valorant.domain.usecase.settings.first_launch.FirstLaunchUseCase
 import com.example.valorant.domain.usecase.settings.font.FontSizeUseCase
+import com.example.valorant.domain.usecase.settings.language.LanguageSettingsUseCase
 import com.example.valorant.domain.usecase.settings.theme.ThemeSettingsUseCase
 import com.example.valorant.domain.usecase.weapon.GetWeaponsUseCase
 import dagger.Module
@@ -81,5 +82,11 @@ internal object UseCaseModule {
     @Singleton
     fun provideThemeSettingsUseCase(userRepository: UserRepository): ThemeSettingsUseCase {
         return ThemeSettingsUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLanguageSettingsUseCase(userRepository: UserRepository): LanguageSettingsUseCase {
+        return LanguageSettingsUseCase(userRepository)
     }
 }

@@ -6,8 +6,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.agents.R
 import com.example.agents.model.state.AgentsUiState
 import com.example.valorant.core.uikit.component.chip.ValorantChipGroupPrimary
 import com.example.valorant.core.uikit.component.chip.ValorantChipGroupShimmer
@@ -44,7 +46,7 @@ internal fun AgentsTopBar(
         } else {
             ValorantChipGroupPrimary(
                 modifier = Modifier.padding(vertical = 4.dp),
-                chipTitles = listOf("All") + chipTitles,
+                chipTitles = listOf(stringResource(R.string.feature_agents_filter_all)) + chipTitles,
                 selectedChipIndex = roles.data.indexOf(uiState.selectedRole).let { if (it == -1) 0 else it + 1 },
                 onChipSelected = { selectedIndex ->
                     val selectedRole = if (selectedIndex == 0) {

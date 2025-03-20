@@ -127,7 +127,6 @@ fun ValorantApp(appState: ValorantAppState) {
     }
 }
 
-// Вспомогательная функция для проверки, находится ли маршрут в списке
 private fun NavDestination?.isRouteInHierarchy(routes: List<KClass<*>>): Boolean =
     this?.hierarchy?.any { navDestination ->
         routes.any { route -> navDestination.hasRoute(route) }

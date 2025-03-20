@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_agent_component_description_title">설명</string>
+    <string name="feature_agent_component_ability_title">능력</string>
+</resources>

@@ -3,6 +3,7 @@ package com.example.valorant.data.source.repository.user
 import com.example.valorant.data.datastore.source.UserDataSource
 import com.example.valorant.domain.model.common.device.FontSize
 import com.example.valorant.domain.model.common.device.ThemeType
+import com.example.valorant.domain.model.user.LanguageType
 import com.example.valorant.domain.repository.user.settings.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,6 +27,9 @@ class UserRepositoryImpl @Inject constructor(
         get() = userSettings["theme"]?.mapNotNull { it as? ThemeType }
             ?: flow { emit(ThemeType.SYSTEM) }
 
+    override val language: Flow<LanguageType>
+        get() = userSettings["language"]?.mapNotNull { it as? LanguageType }
+            ?: flow { emit(LanguageType.SYSTEM) }
 
     override suspend fun updateFirstLaunch(isFirstLaunch: Boolean) =
         userDataSource.updateFirstLaunch(isFirstLaunch)
@@ -35,4 +39,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun updateTheme(theme: ThemeType) =
         userDataSource.updateTheme(theme)
+
+    override suspend fun updateLanguage(language: LanguageType) =
+        userDataSource.updateLanguage(language)
 }

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_agent_component_description_title">الوصف</string>
+    <string name="feature_agent_component_ability_title">القدرة</string>
+</resources>

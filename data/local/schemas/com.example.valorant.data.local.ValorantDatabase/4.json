@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "a961c645030354d09511497152959407",
+    "identityHash": "414f8e5cd6d901ba3651b8f85760a83d",
     "entities": [
       {
         "tableName": "agents",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `display_name` TEXT NOT NULL, `display_icon` TEXT NOT NULL, `description` TEXT NOT NULL, `full_portrait` TEXT NOT NULL, `full_portrait_v2` TEXT NOT NULL, `background` TEXT NOT NULL, `role_uuid` TEXT NOT NULL, `character_tags` TEXT, PRIMARY KEY(`uuid`), FOREIGN KEY(`role_uuid`) REFERENCES `agent_roles`(`uuid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `display_name` TEXT NOT NULL, `display_icon` TEXT NOT NULL, `description` TEXT NOT NULL, `full_portrait` TEXT NOT NULL, `full_portrait_v2` TEXT NOT NULL, `background` TEXT NOT NULL, `role_uuid` TEXT NOT NULL, `character_tags` TEXT, `language_code` TEXT NOT NULL, PRIMARY KEY(`uuid`, `language_code`), FOREIGN KEY(`role_uuid`) REFERENCES `agent_roles`(`uuid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "uuid",
@@ -61,12 +61,19 @@
             "columnName": "character_tags",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "languageCode",
+            "columnName": "language_code",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "uuid"
+            "uuid",
+            "language_code"
           ]
         },
         "indices": [
@@ -78,6 +85,15 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_agents_role_uuid` ON `${TABLE_NAME}` (`role_uuid`)"
+          },
+          {
+            "name": "index_agents_uuid",
+            "unique": true,
+            "columnNames": [
+              "uuid"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_agents_uuid` ON `${TABLE_NAME}` (`uuid`)"
           }
         ],
         "foreignKeys": [
@@ -96,7 +112,7 @@
       },
       {
         "tableName": "agent_roles",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `display_name` TEXT NOT NULL, `display_icon` TEXT NOT NULL, PRIMARY KEY(`uuid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `display_name` TEXT NOT NULL, `display_icon` TEXT NOT NULL, `language_code` TEXT NOT NULL, PRIMARY KEY(`uuid`, `language_code`))",
         "fields": [
           {
             "fieldPath": "uuid",
@@ -115,20 +131,37 @@
             "columnName": "display_icon",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "languageCode",
+            "columnName": "language_code",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "uuid"
+            "uuid",
+            "language_code"
           ]
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_agent_roles_uuid",
+            "unique": true,
+            "columnNames": [
+              "uuid"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_agent_roles_uuid` ON `${TABLE_NAME}` (`uuid`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "agent_abilities",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`agent_uuid` TEXT NOT NULL, `slot` TEXT NOT NULL, `display_name` TEXT NOT NULL, `description` TEXT NOT NULL, `display_icon` TEXT, PRIMARY KEY(`agent_uuid`, `slot`), FOREIGN KEY(`agent_uuid`) REFERENCES `agents`(`uuid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`agent_uuid` TEXT NOT NULL, `slot` TEXT NOT NULL, `display_name` TEXT NOT NULL, `description` TEXT NOT NULL, `display_icon` TEXT, `language_code` TEXT NOT NULL, PRIMARY KEY(`agent_uuid`, `slot`, `language_code`), FOREIGN KEY(`agent_uuid`) REFERENCES `agents`(`uuid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "agentUuid",
@@ -159,13 +192,20 @@
             "columnName": "display_icon",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "languageCode",
+            "columnName": "language_code",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
             "agent_uuid",
-            "slot"
+            "slot",
+            "language_code"
           ]
         },
         "indices": [
@@ -479,7 +519,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a961c645030354d09511497152959407')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '414f8e5cd6d901ba3651b8f85760a83d')"
     ]
   }
 }

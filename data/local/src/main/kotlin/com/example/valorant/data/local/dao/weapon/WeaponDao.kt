@@ -1,11 +1,9 @@
 package com.example.valorant.data.local.dao.weapon
 
 import androidx.room.Dao
-import androidx.room.Embedded
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Relation
 import com.example.valorant.data.local.model.weapon.WeaponEntity
 import com.example.valorant.data.local.model.weapon.WeaponWithShop
 import kotlinx.coroutines.flow.Flow

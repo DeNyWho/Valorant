@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AgentRoleDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRole(role: AgentRoleEntity)
 
-    @Query("SELECT * FROM agent_roles")
-    fun getAllRoles(): Flow<List<AgentRoleEntity>>
+    @Query("SELECT * FROM agent_roles WHERE language_code = :languageCode")
+    fun getAllRoles(languageCode: String): Flow<List<AgentRoleEntity>>
 }

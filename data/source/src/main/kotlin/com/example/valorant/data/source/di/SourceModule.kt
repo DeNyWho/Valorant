@@ -38,6 +38,7 @@ internal object SourceModule {
         agentRoleDao: AgentRoleDao,
         agentAbilityDao: AgentAbilityDao,
         dataUpdateDao: DataUpdateDao,
+        userRepository: UserRepository,
     ): AgentRepository {
         return AgentRepositoryImpl(
             agentService = agentService,
@@ -45,6 +46,7 @@ internal object SourceModule {
             agentRoleDao = agentRoleDao,
             agentAbilityDao = agentAbilityDao,
             dataUpdateDao = dataUpdateDao,
+            userRepository = userRepository,
         )
     }
 
