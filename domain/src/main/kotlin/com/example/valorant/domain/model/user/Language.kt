@@ -1,25 +1,25 @@
 package com.example.valorant.domain.model.user
 
-enum class LanguageType(val code: String) {
-    SYSTEM("system"),
-    ARABIC("ar-AE"),
-    GERMAN("de-DE"),
-    ENGLISH("en-US"),
-    SPANISH("es-ES"),
-    SPANISH_MEXICO("es-MX"),
-    FRENCH("fr-FR"),
-    INDONESIAN("id-ID"),
-    ITALIAN("it-IT"),
-    JAPANESE("ja-JP"),
-    KOREAN("ko-KR"),
-    POLISH("pl-PL"),
-    PORTUGUESE_BRAZIL("pt-BR"),
-    RUSSIAN("ru-RU"),
-    THAI("th-TH"),
-    TURKISH("tr-TR"),
-    VIETNAMESE("vi-VN"),
-    CHINESE_SIMPLIFIED("zh-CN"),
-    CHINESE_TRADITIONAL("zh-TW");
+enum class LanguageType(val code: String, val displayName: String) {
+    SYSTEM("system", "System Default"),
+    ARABIC("ar-AE", "العربية"),
+    GERMAN("de-DE", "Deutsch"),
+    ENGLISH("en-US", "English"),
+    SPANISH("es-ES", "Español (España)"),
+    SPANISH_MEXICO("es-MX", "Español (México)"),
+    FRENCH("fr-FR", "Français"),
+    INDONESIAN("id-ID", "Bahasa Indonesia"),
+    ITALIAN("it-IT", "Italiano"),
+    JAPANESE("ja-JP", "日本語"),
+    KOREAN("ko-KR", "한국어"),
+    POLISH("pl-PL", "Polski"),
+    PORTUGUESE_BRAZIL("pt-BR", "Português (Brasil)"),
+    RUSSIAN("ru-RU", "Русский"),
+    THAI("th-TH", "ไทย"),
+    TURKISH("tr-TR", "Türkçe"),
+    VIETNAMESE("vi-VN", "Tiếng Việt"),
+    CHINESE_SIMPLIFIED("zh-CN", "简体中文"),
+    CHINESE_TRADITIONAL("zh-TW", "繁體中文");
 
     companion object {
         fun fromCode(code: String): LanguageType {

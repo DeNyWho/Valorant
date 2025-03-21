@@ -19,28 +19,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.settings.component.theme.ThemeComponent
+import com.example.settings.component.appearance.AppearanceComponent
 import com.example.valorant.core.uikit.component.topbar.SimpleTopBar
 import com.example.valorant.domain.model.common.device.ThemeType
+import com.example.valorant.domain.model.user.LanguageType
 
 @Composable
 internal fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val selectedThemeState by viewModel.selectedTheme.collectAsState()
+    val selectedLanguageState by viewModel.selectedLanguage.collectAsState()
 
     SettingsUI(
         selectedTheme = selectedThemeState,
+        selectedLanguage = selectedLanguageState,
         onUpdateTheme = { theme ->
             viewModel.updateThemeSettings(theme)
-        }
+        },
+        onUpdateLanguage = { language ->
+            viewModel.updateLanguageSettings(language)
+        },
     )
 }
 
 @Composable
 private fun SettingsUI(
     selectedTheme: ThemeType,
+    selectedLanguage: LanguageType,
     onUpdateTheme: (ThemeType) -> Unit,
+    onUpdateLanguage: (LanguageType) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
@@ -59,7 +67,9 @@ private fun SettingsUI(
             modifier = Modifier
                 .padding(padding),
             selectedTheme = selectedTheme,
+            selectedLanguage = selectedLanguage,
             onUpdateTheme = onUpdateTheme,
+            onUpdateLanguage = onUpdateLanguage,
         )
     }
 }
@@ -68,15 +78,19 @@ private fun SettingsUI(
 private fun SettingsContentUI(
     modifier: Modifier,
     selectedTheme: ThemeType,
+    selectedLanguage: LanguageType,
     onUpdateTheme: (ThemeType) -> Unit,
+    onUpdateLanguage: (LanguageType) -> Unit,
 ) {
     val lazyColumnState = rememberLazyListState()
 
     val settingsItems = listOf<@Composable () -> Unit>(
         {
-            ThemeComponent(
+            AppearanceComponent(
                 selectedTheme = selectedTheme,
+                selectedLanguage = selectedLanguage,
                 onUpdateTheme = onUpdateTheme,
+                onUpdateLanguage = onUpdateLanguage,
             )
         },
     )

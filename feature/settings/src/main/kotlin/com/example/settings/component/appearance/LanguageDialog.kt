@@ -1,4 +1,4 @@
-package com.example.settings.component.theme
+package com.example.settings.component.appearance
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -25,13 +25,13 @@ import androidx.compose.ui.window.Dialog
 import com.example.settings.R
 import com.example.valorant.core.uikit.component.button.ValorantButtonSurface
 import com.example.valorant.core.uikit.util.DefaultPreview
-import com.example.valorant.domain.model.common.device.ThemeType
+import com.example.valorant.domain.model.user.LanguageType
 
 @Composable
-internal fun ThemeDialog(
+internal fun LanguageDialog(
     setShowDialog: (Boolean) -> Unit,
-    selectedTheme: ThemeType,
-    onUpdateTheme: (ThemeType) -> Unit,
+    selectedLanguage: LanguageType,
+    onUpdateLanguage: (LanguageType) -> Unit,
 ) {
     Dialog(
         onDismissRequest = { setShowDialog.invoke(false) },
@@ -48,20 +48,20 @@ internal fun ThemeDialog(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text(
-                    text = stringResource(R.string.feature_settings_section_ui_theme),
+                    text = stringResource(R.string.feature_settings_section_appearance_language),
                     style = MaterialTheme.typography.titleMedium,
                 )
 
                 Column(Modifier.selectableGroup()) {
-                    ThemeType.entries.forEach { theme ->
+                    LanguageType.entries.forEach { language ->
                         Row(
                             Modifier
                                 .padding(top = 8.dp)
                                 .fillMaxWidth()
                                 .selectable(
-                                    selected = selectedTheme == theme,
+                                    selected = selectedLanguage == language,
                                     onClick = {
-                                        onUpdateTheme.invoke(theme)
+                                        onUpdateLanguage.invoke(language)
                                         setShowDialog.invoke(false)
                                     },
                                     role = Role.RadioButton,
@@ -72,11 +72,11 @@ internal fun ThemeDialog(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
-                                selected = selectedTheme == theme,
+                                selected = selectedLanguage == language,
                                 onClick = null,
                             )
                             Text(
-                                text = theme.toString(),
+                                text = language.displayName,
                                 style = MaterialTheme.typography.bodyLarge,
                                 modifier = Modifier.padding(start = 16.dp),
                             )
@@ -107,12 +107,12 @@ internal fun ThemeDialog(
 
 @PreviewLightDark
 @Composable
-private fun PreviewThemeDialog() {
+private fun PreviewLanguageDialog() {
     DefaultPreview {
-        ThemeDialog(
+        LanguageDialog(
             setShowDialog = { },
-            selectedTheme = ThemeType.SYSTEM,
-            onUpdateTheme = { },
+            selectedLanguage = LanguageType.SYSTEM,
+            onUpdateLanguage = { },
         )
     }
 }
