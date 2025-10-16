@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.valorant.android.library)
     alias(libs.plugins.valorant.android.library.jacoco)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.valorant.android.hilt)
 }
 

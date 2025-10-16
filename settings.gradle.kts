@@ -14,18 +14,26 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
-        google()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
     }
 }
 
-gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
-
 rootProject.name = "Valorant"
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
+
+include(":lint")
+include(":domain")
 
 include(":data:datastore")
 include(":data:local")
@@ -35,9 +43,6 @@ include(":data:source")
 include(":core:common")
 include(":core:uikit")
 include(":core:testing")
-
-include(":lint")
-include(":domain")
 
 include(":feature:agent")
 include(":feature:map")
