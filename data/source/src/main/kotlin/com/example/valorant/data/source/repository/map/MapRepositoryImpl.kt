@@ -11,7 +11,7 @@ import com.example.valorant.data.network.service.map.MapService
 import com.example.valorant.data.source.mapper.map.toCalloutEntities
 import com.example.valorant.data.source.mapper.map.toEntity
 import com.example.valorant.domain.model.common.request.ApiError
-import com.example.valorant.domain.model.common.request.ApiError.*
+import com.example.valorant.domain.model.common.request.ApiError.Unknown
 import com.example.valorant.domain.model.common.request.Resource
 import com.example.valorant.domain.model.map.detail.MapDetail
 import com.example.valorant.domain.model.map.light.MapLight

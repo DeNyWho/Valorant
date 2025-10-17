@@ -3,7 +3,6 @@ package com.example.valorant.feature.weapon
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.valorant.domain.usecase.map.GetMapDetailUseCase
 import com.example.valorant.domain.usecase.weapon.GetWeaponDetailUseCase
 import com.example.valorant.feature.weapon.model.WeaponAction
 import com.example.valorant.feature.weapon.model.WeaponEvent

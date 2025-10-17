@@ -63,6 +63,7 @@ private fun AgentContent(
 ) {
     when(state.agent) {
         is StateWrapper.Loading -> CircularProgressIndicator()
+
         is StateWrapper.Success -> {
             Box {
                 Row(
@@ -99,6 +100,7 @@ private fun AgentContent(
                 )
             }
         }
+
         is StateWrapper.Error -> {
 
         }
@@ -138,7 +140,6 @@ private fun AgentUI(
         }
     }
 }
-
 
 @Composable
 private fun AgentActions(

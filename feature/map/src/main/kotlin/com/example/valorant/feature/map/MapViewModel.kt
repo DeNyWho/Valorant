@@ -3,8 +3,6 @@ package com.example.valorant.feature.map
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.valorant.domain.model.map.detail.MapDetail
-import com.example.valorant.domain.state.StateWrapper
 import com.example.valorant.domain.usecase.map.GetMapDetailUseCase
 import com.example.valorant.feature.map.model.MapAction
 import com.example.valorant.feature.map.model.MapEvent
@@ -39,8 +37,8 @@ internal class MapViewModel @Inject constructor(
         handleEvent(MapEvent.LoadInitialData)
     }
 
-    fun handleEvent(agentEvent: MapEvent) {
-        when(agentEvent) {
+    fun handleEvent(mapEvent: MapEvent) {
+        when(mapEvent) {
             MapEvent.LoadInitialData -> loadInitialData()
             MapEvent.OnBack -> onBack()
         }
@@ -48,12 +46,12 @@ internal class MapViewModel @Inject constructor(
 
     private fun loadInitialData() {
         viewModelScope.launch {
-            launch { getAgent(mapUUID) }
+            launch { getMap(mapUUID) }
         }
     }
 
-    private fun getAgent(agentUUID: String) {
-        getMapDetailUseCase.invoke(agentUUID)
+    private fun getMap(mapUUID: String) {
+        getMapDetailUseCase.invoke(mapUUID)
             .onEach { result ->
                 _state.update {
                     it.copy(
@@ -62,7 +60,6 @@ internal class MapViewModel @Inject constructor(
                 }
             }.launchIn(viewModelScope)
     }
-
 
     private fun onBack() = viewModelScope.launch {
         _action.emit(

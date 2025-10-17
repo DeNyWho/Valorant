@@ -8,17 +8,16 @@ import com.example.valorant.feature.agent.AgentScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AgentRoute(val agentId: String)
+data class AgentRoute(val agentUUID: String)
 
-fun NavController.navigateToAgent(agentId: String, navOptions: NavOptions? = null) {
-    navigate(route = AgentRoute(agentId), navOptions)
+fun NavController.navigateToAgent(agentUUID: String, navOptions: NavOptions? = null) {
+    navigate(route = AgentRoute(agentUUID), navOptions)
 }
 
 fun NavGraphBuilder.agentScreen(
     onBackClick: () -> Boolean,
 ) {
     composable<AgentRoute> { backStackEntry ->
-
         AgentScreen(onBackClick = onBackClick)
     }
 }

@@ -40,7 +40,7 @@ internal class AgentsViewModel @Inject constructor(
         when (event) {
             AgentsEvent.LoadInitialData -> loadInitialData()
             is AgentsEvent.SelectRole -> selectRole(event.role)
-            is AgentsEvent.OnAgentCardClick -> {}
+            is AgentsEvent.OnAgentCardClick -> navigateToAgent(event.agentUUID)
         }
     }
 
@@ -61,18 +61,29 @@ internal class AgentsViewModel @Inject constructor(
 
     private fun loadAgents(role: AgentRole?) {
         getAgentsUseCase.invoke(role)
-            .onEach { agentsState ->
-                _state.update { it.copy(agents = agentsState) }
+            .onEach { result ->
+                _state.update {
+                    it.copy(
+                        agents = result,
+                    )
+                }
             }
             .launchIn(viewModelScope)
     }
 
     private fun selectRole(role: AgentRole?) {
-        _state.update { it.copy(selectedRole = role) }
+        _state.update {
+            it.copy(
+                selectedRole = role
+            )
+        }
+
         loadAgents(role)
     }
 
-    fun navigateToAgent(agentUUID: String) = viewModelScope.launch {
-        _action.emit(AgentsAction.NavigateToAgentDetail(agentUUID))
+    private fun navigateToAgent(agentUUID: String) = viewModelScope.launch {
+        _action.emit(
+            AgentsAction.NavigateToAgentDetail(agentUUID)
+        )
     }
 }

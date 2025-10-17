@@ -43,7 +43,7 @@ internal fun WeaponsScreen(
 
     WeaponsActions(
         action = action,
-        onMapClick = onWeaponClick,
+        onWeaponClick = onWeaponClick,
     )
 }
 
@@ -108,12 +108,12 @@ private fun WeaponsUI(
 @Composable
 private fun WeaponsActions(
     action: WeaponsAction?,
-    onMapClick: (String) -> Unit,
+    onWeaponClick: (String) -> Unit,
 ) {
     LaunchedEffect(action) {
         when(action) {
             null -> Unit
-            is WeaponsAction.NavigateToWeaponDetail -> onMapClick.invoke(action.weaponsUUID)
+            is WeaponsAction.NavigateToWeaponDetail -> onWeaponClick.invoke(action.weaponsUUID)
             is WeaponsAction.ShowError -> {
 
             }

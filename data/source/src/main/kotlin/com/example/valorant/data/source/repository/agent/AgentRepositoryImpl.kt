@@ -15,8 +15,8 @@ import com.example.valorant.data.source.mapper.agent.toEntity
 import com.example.valorant.domain.model.agent.detail.AgentDetail
 import com.example.valorant.domain.model.agent.light.AgentLight
 import com.example.valorant.domain.model.agent.role.AgentRole
-import com.example.valorant.domain.model.common.request.ApiError
-import com.example.valorant.domain.model.common.request.ApiError.*
+import com.example.valorant.domain.model.common.request.ApiError.HttpError
+import com.example.valorant.domain.model.common.request.ApiError.Unknown
 import com.example.valorant.domain.model.common.request.Resource
 import com.example.valorant.domain.repository.agent.AgentRepository
 import com.example.valorant.domain.state.StateListWrapper

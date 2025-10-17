@@ -8,10 +8,10 @@ import com.example.valorant.feature.map.MapScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MapRoute(val mapId: String)
+data class MapRoute(val mapUUID: String)
 
-fun NavController.navigateToMap(mapId: String, navOptions: NavOptions? = null) {
-    navigate(route = MapRoute(mapId), navOptions)
+fun NavController.navigateToMap(mapUUID: String, navOptions: NavOptions? = null) {
+    navigate(route = MapRoute(mapUUID), navOptions)
 }
 
 fun NavGraphBuilder.mapScreen(

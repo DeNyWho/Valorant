@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,7 +23,6 @@ import com.example.maps.model.MapsEvent
 import com.example.maps.model.MapsState
 import com.example.valorant.core.uikit.util.LocalScreenInfo
 import com.example.valorant.domain.model.common.device.ScreenType
-import com.example.valorant.domain.model.map.light.MapLight
 import com.example.valorant.domain.state.StateListWrapper
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds

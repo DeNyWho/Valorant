@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.valorant.data.local.model.weapon.WeaponSkinEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeaponSkinDao {

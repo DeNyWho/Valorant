@@ -59,6 +59,8 @@ internal class MapsViewModel @Inject constructor(
     }
 
     private fun navigateToMap(mapUUID: String) = viewModelScope.launch {
-        _action.emit(MapsAction.NavigateToMapDetail(mapUUID))
+        _action.emit(
+            MapsAction.NavigateToMapDetail(mapUUID)
+        )
     }
 }

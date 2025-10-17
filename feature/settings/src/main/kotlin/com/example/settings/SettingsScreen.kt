@@ -12,14 +12,16 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.settings.component.theme.ThemeComponent
+import com.example.settings.model.SettingsEvent
+import com.example.settings.model.SettingsState
 import com.example.valorant.core.uikit.component.topbar.SimpleTopBar
 import com.example.valorant.domain.model.common.device.ThemeType
 
@@ -27,20 +29,19 @@ import com.example.valorant.domain.model.common.device.ThemeType
 internal fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
-    val selectedThemeState by viewModel.selectedTheme.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     SettingsUI(
-        selectedTheme = selectedThemeState,
-        onUpdateTheme = { theme ->
-            viewModel.updateThemeSettings(theme)
-        }
+        state = state,
+        eventHandler = viewModel::handleEvent,
     )
+
 }
 
 @Composable
 private fun SettingsUI(
-    selectedTheme: ThemeType,
-    onUpdateTheme: (ThemeType) -> Unit,
+    state: SettingsState,
+    eventHandler: (SettingsEvent) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
@@ -58,8 +59,10 @@ private fun SettingsUI(
         SettingsContentUI(
             modifier = Modifier
                 .padding(padding),
-            selectedTheme = selectedTheme,
-            onUpdateTheme = onUpdateTheme,
+            selectedTheme = state.selectedTheme,
+            onUpdateTheme = { themeType ->
+                eventHandler.invoke(SettingsEvent.SelectTheme(themeType))
+            },
         )
     }
 }

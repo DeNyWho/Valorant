@@ -25,7 +25,7 @@ internal fun WeaponScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val action by viewModel.action.collectAsStateWithLifecycle(initialValue = null)
 
-    MapContent(
+    WeaponContent(
         state = state,
         eventHandler = viewModel::handleEvent,
     )
@@ -37,7 +37,7 @@ internal fun WeaponScreen(
 }
 
 @Composable
-private fun MapContent(
+private fun WeaponContent(
     state: WeaponState,
     eventHandler: (WeaponEvent) -> Unit,
 ) {

@@ -42,11 +42,11 @@ internal class WeaponsViewModel @Inject constructor(
 
     private fun loadInitialData() {
         viewModelScope.launch {
-            launch { loadMaps() }
+            launch { loadWeapons() }
         }
     }
 
-    private fun loadMaps() {
+    private fun loadWeapons() {
         getWeaponsUseCase.invoke()
             .onEach { result ->
                 _state.update {
@@ -58,7 +58,9 @@ internal class WeaponsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    private fun navigateToWeapon(mapUUID: String) = viewModelScope.launch {
-        _action.emit(WeaponsAction.NavigateToWeaponDetail(mapUUID))
+    private fun navigateToWeapon(weaponUUID: String) = viewModelScope.launch {
+        _action.emit(
+            WeaponsAction.NavigateToWeaponDetail(weaponUUID)
+        )
     }
 }

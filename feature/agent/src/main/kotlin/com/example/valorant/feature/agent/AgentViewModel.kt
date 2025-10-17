@@ -61,7 +61,6 @@ internal class AgentViewModel @Inject constructor(
             }.launchIn(viewModelScope)
     }
 
-
     private fun onBack() = viewModelScope.launch {
         _action.emit(
             AgentAction.NavigateUp

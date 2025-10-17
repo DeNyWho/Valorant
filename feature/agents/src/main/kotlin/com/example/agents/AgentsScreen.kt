@@ -26,7 +26,6 @@ import com.example.agents.model.AgentsEvent
 import com.example.agents.model.AgentsState
 import com.example.valorant.core.uikit.util.LocalScreenInfo
 import com.example.valorant.core.uikit.util.onUpdateShimmerBounds
-import com.example.valorant.domain.model.agent.light.AgentLight
 import com.example.valorant.domain.model.common.device.ScreenType
 import com.example.valorant.domain.state.StateListWrapper
 import com.valentinilk.shimmer.Shimmer
@@ -134,7 +133,6 @@ private fun AgentsContentUI(
         }
     }
 }
-
 
 @Composable
 private fun AgentActions(
