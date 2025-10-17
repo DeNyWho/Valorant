@@ -11,20 +11,22 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.agents.components.item.CardAgentGridItem
 import com.example.agents.components.item.CardAgentGridItemDefaults
 import com.example.agents.components.item.showCardAgentGridItemShimmer
 import com.example.agents.components.top.AgentsTopBar
-import com.example.agents.model.state.AgentsUiState
+import com.example.agents.model.AgentsAction
+import com.example.agents.model.AgentsEvent
+import com.example.agents.model.AgentsState
 import com.example.valorant.core.uikit.util.LocalScreenInfo
 import com.example.valorant.core.uikit.util.onUpdateShimmerBounds
 import com.example.valorant.domain.model.agent.light.AgentLight
-import com.example.valorant.domain.model.agent.role.AgentRole
 import com.example.valorant.domain.model.common.device.ScreenType
 import com.example.valorant.domain.state.StateListWrapper
 import com.valentinilk.shimmer.Shimmer
@@ -36,43 +38,42 @@ internal fun AgentsScreen(
     viewModel: AgentsViewModel = hiltViewModel(),
     onAgentClick: (String) -> Unit,
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-    val rolesState by viewModel.roles.collectAsState()
-    val agentsState by viewModel.agents.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val action by viewModel.action.collectAsStateWithLifecycle(initialValue = null)
 
     AgentsUI(
-        uiState = uiState,
-        rolesState = rolesState,
-        agentsState = agentsState,
-        onRoleSelected = { role ->
-            viewModel.updateSelectedRole(role)
-        },
+        state = state,
+        eventHandler = viewModel::handleEvent,
+    )
+
+    AgentActions(
+        action = action,
         onAgentClick = onAgentClick,
     )
 }
 
 @Composable
 private fun AgentsUI(
-    uiState: AgentsUiState,
-    rolesState: StateListWrapper<AgentRole>,
-    agentsState: StateListWrapper<AgentLight>,
-    onRoleSelected: (AgentRole?) -> Unit,
-    onAgentClick: (String) -> Unit,
+    state: AgentsState,
+    eventHandler: (AgentsEvent) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             AgentsTopBar(
-                uiState = uiState,
-                roles = rolesState,
-                onRoleSelected = onRoleSelected,
+                state = state,
+                onRoleSelected = { role ->
+                    eventHandler.invoke(AgentsEvent.SelectRole(role))
+                },
             )
         },
     ) { padding ->
         AgentsContentUI(
             modifier = Modifier.padding(padding),
-            agentsState = agentsState,
-            onAgentClick = onAgentClick,
+            state = state,
+            onAgentClick = { agentUUID ->
+                eventHandler.invoke(AgentsEvent.OnAgentCardClick(agentUUID))
+            },
         )
     }
 }
@@ -80,7 +81,7 @@ private fun AgentsUI(
 @Composable
 private fun AgentsContentUI(
     modifier: Modifier,
-    agentsState: StateListWrapper<AgentLight>,
+    state: AgentsState,
     onAgentClick: (String) -> Unit,
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.View),
 ) {
@@ -106,21 +107,46 @@ private fun AgentsContentUI(
             Spacer(modifier = Modifier)
         }
 
-        if (agentsState.isLoading) {
-            showCardAgentGridItemShimmer(
-                modifier = Modifier.size(size),
-                shimmerInstance = shimmer,
-            )
-        } else if (agentsState.data.isNotEmpty()) {
-            items(
-                agentsState.data,
-                key = { it.uuid },
-            ) { agent ->
-                CardAgentGridItem(
+        when(state.agents) {
+            is StateListWrapper.Success -> {
+                items(
+                    state.agents.data,
+                    key = { it.uuid },
+                ) { agent ->
+                    CardAgentGridItem(
+                        modifier = Modifier.size(size),
+                        agent = agent,
+                        onAgentClick = onAgentClick,
+                    )
+                }
+            }
+
+            is StateListWrapper.Loading -> {
+                showCardAgentGridItemShimmer(
                     modifier = Modifier.size(size),
-                    agent = agent,
-                    onAgentClick = onAgentClick,
+                    shimmerInstance = shimmer,
                 )
+            }
+
+            is StateListWrapper.Error -> {
+
+            }
+        }
+    }
+}
+
+
+@Composable
+private fun AgentActions(
+    action: AgentsAction?,
+    onAgentClick: (String) -> Unit,
+) {
+    LaunchedEffect(action) {
+        when(action) {
+            null -> Unit
+            is AgentsAction.NavigateToAgentDetail -> onAgentClick.invoke(action.agentUUID)
+            is AgentsAction.ShowError -> {
+
             }
         }
     }

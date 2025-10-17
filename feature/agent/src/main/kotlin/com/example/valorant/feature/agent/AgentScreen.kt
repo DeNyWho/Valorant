@@ -18,11 +18,13 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.valorant.core.uikit.component.button.ValorantButtonSurface
 import com.example.valorant.core.uikit.component.icon.ValorantIconPrimary
 import com.example.valorant.core.uikit.util.clickableWithoutRipple
@@ -31,33 +33,37 @@ import com.example.valorant.domain.state.StateWrapper
 import com.example.valorant.feature.agent.components.abilities.AbilitiesComponent
 import com.example.valorant.feature.agent.components.description.DescriptionComponent
 import com.example.valorant.feature.agent.components.overview.OverviewComponent
+import com.example.valorant.feature.agent.model.AgentAction
+import com.example.valorant.feature.agent.model.AgentEvent
+import com.example.valorant.feature.agent.model.AgentState
 
 @Composable
 internal fun AgentScreen(
     viewModel: AgentViewModel = hiltViewModel(),
-    agentId: String,
     onBackClick: () -> Boolean,
 ) {
-    LaunchedEffect(viewModel) {
-        viewModel.getAgent(agentId)
-    }
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val action by viewModel.action.collectAsStateWithLifecycle(initialValue = null)
 
     AgentContent(
-        agent = viewModel.agent.value,
-        onBackPressed = onBackClick,
+        state = state,
+        eventHandler = viewModel::handleEvent,
     )
 
+    AgentActions(
+        action = action,
+        onBackClick = onBackClick,
+    )
 }
 
 @Composable
 private fun AgentContent(
-    onBackPressed: () -> Boolean,
-    agent: StateWrapper<AgentDetail>,
+    state: AgentState,
+    eventHandler: (AgentEvent) -> Unit,
 ) {
-    when {
-        agent.isLoading -> CircularProgressIndicator()
-        agent.error.message.isNotEmpty() -> { }
-        else -> {
+    when(state.agent) {
+        is StateWrapper.Loading -> CircularProgressIndicator()
+        is StateWrapper.Success -> {
             Box {
                 Row(
                     modifier = Modifier
@@ -71,14 +77,14 @@ private fun AgentContent(
                         paddingValues = PaddingValues(4.dp),
                         shape = MaterialTheme.shapes.small,
                         onClick = {
-                            onBackPressed.invoke()
+                            eventHandler.invoke(AgentEvent.OnBack)
                         },
                         elevation = ButtonDefaults.elevatedButtonElevation(),
                     ) {
                         ValorantIconPrimary(
                             modifier = Modifier
                                 .clickableWithoutRipple {
-                                    onBackPressed.invoke()
+                                    eventHandler.invoke(AgentEvent.OnBack)
                                 }
                                 .size(28.dp),
                             imageVector = AutoMirrored.Filled.ArrowBack,
@@ -87,18 +93,20 @@ private fun AgentContent(
                     }
                     Spacer(Modifier.weight(1f))
                 }
-                agent.data?.let {
-                    AgentUI(
-                        agent = it,
-                    )
-                }
+
+                AgentUI(
+                    agent = state.agent.data,
+                )
             }
+        }
+        is StateWrapper.Error -> {
+
         }
     }
 }
 
 @Composable
-fun AgentUI(
+private fun AgentUI(
     agent: AgentDetail,
 ) {
     val lazyColumnState = rememberLazyListState()
@@ -131,3 +139,19 @@ fun AgentUI(
     }
 }
 
+
+@Composable
+private fun AgentActions(
+    action: AgentAction?,
+    onBackClick: () -> Boolean
+) {
+    LaunchedEffect(action) {
+        when(action) {
+            null -> Unit
+            AgentAction.NavigateUp -> onBackClick.invoke()
+            is AgentAction.ShowError -> {
+
+            }
+        }
+    }
+}

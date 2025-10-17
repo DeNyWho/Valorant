@@ -22,16 +22,16 @@ suspend inline fun <reified T : Any> safeApiCall(
                 Resource.Success(data = response.body<T>())
             }
             else -> {
-                Resource.Error(ApiError(response.status.value, response.bodyAsText()))
+                Resource.Error(ApiError.HttpError(response.status.value, response.bodyAsText()))
             }
         }
     } catch (e: Exception) {
         when (e) {
             is ClientRequestException -> {
-                Resource.Error(ApiError(500, e.message))
+                Resource.Error(ApiError.Network(e.message))
             }
             else -> {
-                Resource.Error(ApiError(500, "${e.message}"))
+                Resource.Error(ApiError.ParseError("${e.message}"))
             }
         }
     }

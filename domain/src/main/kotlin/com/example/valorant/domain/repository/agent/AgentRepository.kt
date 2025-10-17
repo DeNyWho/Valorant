@@ -10,5 +10,5 @@ import kotlinx.coroutines.flow.Flow
 interface AgentRepository {
     fun getAgents(role: AgentRole?): Flow<StateListWrapper<AgentLight>>
     fun getAgentDetail(uuid: String): Flow<StateWrapper<AgentDetail>>
-    suspend fun getAgentsRoles(): Flow<StateListWrapper<AgentRole>>
+    fun getAgentsRoles(): Flow<StateListWrapper<AgentRole>>
 }

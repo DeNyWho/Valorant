@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.agents.model.state.AgentsUiState
+import com.example.agents.model.AgentsState
 import com.example.valorant.core.uikit.component.chip.ValorantChipGroupPrimary
 import com.example.valorant.core.uikit.component.chip.ValorantChipGroupShimmer
 import com.example.valorant.domain.model.agent.role.AgentRole
@@ -19,43 +19,49 @@ import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
 internal fun AgentsTopBar(
-    uiState: AgentsUiState,
+    state: AgentsState,
+    onRoleSelected: (AgentRole?) -> Unit,
     modifier: Modifier = Modifier,
     tonalElevation: Dp = 4.dp,
     shadowElevation: Dp = 4.dp,
-    roles: StateListWrapper<AgentRole>,
-    onRoleSelected: (AgentRole?) -> Unit,
     shimmer: Shimmer = rememberShimmer(ShimmerBounds.View),
 ) {
-    val chipTitles = roles.data.map { it.displayName }
-    val roleIcons = roles.data.map { it.displayIcon }
-
     Surface(
         modifier = modifier.fillMaxWidth(),
         tonalElevation = tonalElevation,
         shadowElevation = shadowElevation,
         color = MaterialTheme.colorScheme.background,
     ) {
-        if(roles.isLoading) {
-            ValorantChipGroupShimmer(
-                modifier = Modifier.padding(vertical = 4.dp),
-                shimmer = shimmer,
-            )
-        } else {
-            ValorantChipGroupPrimary(
-                modifier = Modifier.padding(vertical = 4.dp),
-                chipTitles = listOf("All") + chipTitles,
-                selectedChipIndex = roles.data.indexOf(uiState.selectedRole).let { if (it == -1) 0 else it + 1 },
-                onChipSelected = { selectedIndex ->
-                    val selectedRole = if (selectedIndex == 0) {
-                        null
-                    } else {
-                        roles.data.getOrNull(selectedIndex - 1)
-                    }
-                    onRoleSelected(selectedRole)
-                },
-                roleIcons = roleIcons,
-            )
+        when (state.roles) {
+            is StateListWrapper.Loading -> {
+                ValorantChipGroupShimmer(
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    shimmer = shimmer,
+                )
+            }
+            is StateListWrapper.Success -> {
+                val chipTitles = listOf("All") + state.roles.data.map { it.displayName }
+                val roleIcons = state.roles.data.map { it.displayIcon }
+                val selectedIndex = if (state.selectedRole == null) {
+                    0
+                } else {
+                    state.roles.data.indexOf(state.selectedRole) + 1
+                }
+
+                ValorantChipGroupPrimary(
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    chipTitles = chipTitles,
+                    selectedChipIndex = selectedIndex,
+                    onChipSelected = { index ->
+                        val selectedRole = if (index == 0) null else state.roles.data.getOrNull(index - 1)
+                        onRoleSelected(selectedRole)
+                    },
+                    roleIcons = roleIcons,
+                )
+            }
+            is StateListWrapper.Error -> {
+
+            }
         }
     }
 }
