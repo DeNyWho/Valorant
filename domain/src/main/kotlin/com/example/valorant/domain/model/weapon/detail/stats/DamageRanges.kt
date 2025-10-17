@@ -4,6 +4,6 @@ data class DamageRanges(
     val rangeStartMeters: Int,
     val rangeEndMeters: Int,
     val headDamage: Double,
-    val bodyDamage: Int,
+    val bodyDamage: Double,
     val legDamage: Double,
 )

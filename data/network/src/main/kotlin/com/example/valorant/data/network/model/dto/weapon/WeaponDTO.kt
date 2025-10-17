@@ -1,6 +1,8 @@
 package com.example.valorant.data.network.model.dto.weapon
 
+import com.example.valorant.data.network.model.dto.weapon.detail.skin.SkinDTO
 import com.example.valorant.data.network.model.dto.weapon.detail.stats.ShopDataDTO
+import com.example.valorant.data.network.model.dto.weapon.detail.stats.WeaponStatsDTO
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -12,6 +14,10 @@ data class WeaponDTO(
     val displayName: String,
     @SerialName("displayIcon")
     val displayIcon: String,
+    @SerialName("weaponStats")
+    val weaponStats: WeaponStatsDTO? = null,
     @SerialName("shopData")
     val shopData: ShopDataDTO?,
+    @SerialName("skins")
+    val skins: List<SkinDTO>,
 )

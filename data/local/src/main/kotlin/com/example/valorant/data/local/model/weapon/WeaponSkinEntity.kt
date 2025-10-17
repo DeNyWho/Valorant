@@ -7,7 +7,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "weapons_shop_data",
+    tableName = "weapon_skins",
     foreignKeys = [
         ForeignKey(
             entity = WeaponEntity::class,
@@ -18,14 +18,14 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index("weapon_uuid")]
 )
-data class WeaponShopDataEntity(
+data class WeaponSkinEntity(
     @PrimaryKey
+    @ColumnInfo(name = "uuid")
+    val uuid: String,
     @ColumnInfo(name = "weapon_uuid")
     val weaponUuid: String,
-    @ColumnInfo(name = "cost")
-    val cost: Int?,
-    @ColumnInfo(name = "category")
-    val category: String?,
-    @ColumnInfo(name = "category_text")
-    val categoryText: String?
+    @ColumnInfo(name = "display_name")
+    val displayName: String,
+    @ColumnInfo(name = "display_icon")
+    val displayIcon: String? = null,
 )

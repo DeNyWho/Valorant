@@ -12,4 +12,11 @@ data class WeaponEntity(
     val displayName: String,
     @ColumnInfo(name = "display_icon")
     val displayIcon: String,
+    @ColumnInfo(name = "cost")
+    val cost: Int?,
+    @ColumnInfo(name = "category")
+    val category: String?,
+    @ColumnInfo(name = "category_text")
+    val categoryText: String?,
+
 )

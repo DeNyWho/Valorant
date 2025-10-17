@@ -12,7 +12,7 @@ data class DamageRangesDTO(
     @SerialName("headDamage")
     val headDamage: Double,
     @SerialName("bodyDamage")
-    val bodyDamage: Int,
+    val bodyDamage: Double,
     @SerialName("legDamage")
     val legDamage: Double,
 )

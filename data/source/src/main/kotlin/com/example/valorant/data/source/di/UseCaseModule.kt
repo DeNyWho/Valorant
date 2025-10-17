@@ -12,6 +12,7 @@ import com.example.valorant.domain.usecase.map.GetMapsUseCase
 import com.example.valorant.domain.usecase.settings.first_launch.FirstLaunchUseCase
 import com.example.valorant.domain.usecase.settings.font.FontSizeUseCase
 import com.example.valorant.domain.usecase.settings.theme.ThemeSettingsUseCase
+import com.example.valorant.domain.usecase.weapon.GetWeaponDetailUseCase
 import com.example.valorant.domain.usecase.weapon.GetWeaponsUseCase
 import dagger.Module
 import dagger.Provides
@@ -41,11 +42,11 @@ internal object UseCaseModule {
         return GetAgentDetailUseCase(agentRepository)
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideGetWeaponDetailUseCase(weaponRepository: WeaponRepository): GetWeaponDetailUseCase {
-//        return GetWeaponDetailUseCase(weaponRepository)
-//    }
+    @Provides
+    @Singleton
+    fun provideGetWeaponDetailUseCase(weaponRepository: WeaponRepository): GetWeaponDetailUseCase {
+        return GetWeaponDetailUseCase(weaponRepository)
+    }
 
     @Provides
     @Singleton

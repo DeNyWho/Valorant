@@ -11,7 +11,8 @@ import com.example.valorant.data.local.dao.agent.AgentRoleDao
 import com.example.valorant.data.local.dao.map.MapCalloutDao
 import com.example.valorant.data.local.dao.map.MapDao
 import com.example.valorant.data.local.dao.weapon.WeaponDao
-import com.example.valorant.data.local.dao.weapon.WeaponShopDataDao
+import com.example.valorant.data.local.dao.weapon.WeaponRangesDao
+import com.example.valorant.data.local.dao.weapon.WeaponSkinDao
 import com.example.valorant.data.local.model.DataUpdateEntity
 import com.example.valorant.data.local.model.agent.AgentAbilityEntity
 import com.example.valorant.data.local.model.agent.AgentEntity
@@ -19,8 +20,8 @@ import com.example.valorant.data.local.model.agent.AgentRoleEntity
 import com.example.valorant.data.local.model.map.MapCalloutEntity
 import com.example.valorant.data.local.model.map.MapEntity
 import com.example.valorant.data.local.model.weapon.WeaponEntity
-import com.example.valorant.data.local.model.weapon.WeaponShopDataEntity
-import com.example.valorant.data.local.model.weapon.WeaponWithShop
+import com.example.valorant.data.local.model.weapon.WeaponRangesEntity
+import com.example.valorant.data.local.model.weapon.WeaponSkinEntity
 
 @Database(
     entities = [
@@ -31,9 +32,10 @@ import com.example.valorant.data.local.model.weapon.WeaponWithShop
         MapCalloutEntity::class,
         DataUpdateEntity::class,
         WeaponEntity::class,
-        WeaponShopDataEntity::class,
+        WeaponSkinEntity::class,
+        WeaponRangesEntity::class,
     ],
-    version = 4,
+    version = 5,
     exportSchema = true,
 )
 @TypeConverters(StringListConverter::class)
@@ -44,6 +46,7 @@ internal abstract class ValorantDatabase : RoomDatabase() {
     abstract fun mapDao(): MapDao
     abstract fun calloutDao(): MapCalloutDao
     abstract fun weaponDao(): WeaponDao
-    abstract fun weaponShopDataDao(): WeaponShopDataDao
+    abstract fun weaponSkinDao(): WeaponSkinDao
+    abstract fun weaponRangesDao(): WeaponRangesDao
     abstract fun dataUpdateDao(): DataUpdateDao
 }
