@@ -18,10 +18,7 @@ fun NavGraphBuilder.mapScreen(
     onBackClick: () -> Boolean,
 ) {
     composable<MapRoute> { backStackEntry ->
-        val mapId = backStackEntry.arguments?.getString("mapId") ?: throw IllegalArgumentException("MapScreen requires a non-null id")
-
         MapScreen(
-            mapId = mapId,
             onBackClick = onBackClick,
         )
     }

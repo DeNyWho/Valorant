@@ -32,7 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.valorant.core.uikit.component.button.ValorantButtonSurface
 import com.example.valorant.core.uikit.component.icon.ValorantIconPrimary
@@ -40,35 +41,37 @@ import com.example.valorant.core.uikit.component.progress.CircularProgress
 import com.example.valorant.core.uikit.util.clickableWithoutRipple
 import com.example.valorant.domain.model.map.detail.MapDetail
 import com.example.valorant.domain.state.StateWrapper
+import com.example.valorant.feature.map.model.MapAction
+import com.example.valorant.feature.map.model.MapEvent
+import com.example.valorant.feature.map.model.MapState
 
 @Composable
 internal fun MapScreen(
     viewModel: MapViewModel = hiltViewModel(),
-    mapId: String,
     onBackClick: () -> Boolean,
 ) {
-    val mapState by viewModel.detailMap.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val action by viewModel.action.collectAsStateWithLifecycle(initialValue = null)
 
-    LaunchedEffect(viewModel) {
-        viewModel.initialize(mapId)
-    }
+    MapContent(
+        state = state,
+        eventHandler = viewModel::handleEvent,
+    )
 
-    MapUI(
-        mapState = mapState,
+    MapActions(
+        action = action,
         onBackClick = onBackClick,
     )
 }
 
 @Composable
-private fun MapUI(
-    mapState: StateWrapper<MapDetail>,
-    onBackClick: () -> Boolean,
+private fun MapContent(
+    state: MapState,
+    eventHandler: (MapEvent) -> Unit,
 ) {
-    when {
-        mapState.isLoading -> {
-            CircularProgress()
-        }
-        mapState.data != null -> {
+    when(state.map) {
+        is StateWrapper.Loading -> CircularProgress()
+        is StateWrapper.Success -> {
             Box {
                 ValorantButtonSurface(
                     modifier = Modifier
@@ -78,14 +81,14 @@ private fun MapUI(
                     paddingValues = PaddingValues(4.dp),
                     shape = MaterialTheme.shapes.small,
                     onClick = {
-                        onBackClick.invoke()
+                        eventHandler.invoke(MapEvent.OnBack)
                     },
                     elevation = ButtonDefaults.elevatedButtonElevation(),
                 ) {
                     ValorantIconPrimary(
                         modifier = Modifier
                             .clickableWithoutRipple {
-                                onBackClick.invoke()
+                                eventHandler.invoke(MapEvent.OnBack)
                             }
                             .size(28.dp),
                         imageVector = AutoMirrored.Filled.ArrowBack,
@@ -93,15 +96,19 @@ private fun MapUI(
                     )
                 }
 
-                MapContentUI(mapState.data!!)
+                MapUI(
+                    map = state.map.data,
+                )
             }
+        }
+        is StateWrapper.Error -> {
 
         }
     }
 }
 
 @Composable
-private fun MapContentUI(
+private fun MapUI(
     map: MapDetail
 ) {
     Box(
@@ -205,6 +212,22 @@ private fun MapContentUI(
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
                 )
+            }
+        }
+    }
+}
+
+@Composable
+private fun MapActions(
+    action: MapAction?,
+    onBackClick: () -> Boolean
+) {
+    LaunchedEffect(action) {
+        when(action) {
+            null -> Unit
+            MapAction.NavigateUp -> onBackClick.invoke()
+            is MapAction.ShowError -> {
+
             }
         }
     }
