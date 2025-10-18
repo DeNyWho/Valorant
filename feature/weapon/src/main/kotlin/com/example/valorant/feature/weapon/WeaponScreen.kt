@@ -34,6 +34,7 @@ import com.example.valorant.core.uikit.util.DefaultPreview
 import com.example.valorant.domain.model.weapon.detail.WeaponDetail
 import com.example.valorant.domain.state.StateWrapper
 import com.example.valorant.feature.weapon.components.overview.OverviewComponent
+import com.example.valorant.feature.weapon.components.skin.SkinComponent
 import com.example.valorant.feature.weapon.components.stats.StatsComponent
 import com.example.valorant.feature.weapon.model.WeaponAction
 import com.example.valorant.feature.weapon.model.WeaponEvent
@@ -122,10 +123,19 @@ private fun WeaponUI(
                 weapon = weapon,
             )
         }
+
+        if(weapon.weaponStats.damageRanges.isNotEmpty()) {
+            item {
+                StatsComponent(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp),
+                    weapon = weapon,
+                )
+            }
+        }
+
         item {
-            StatsComponent(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp),
+            SkinComponent(
                 weapon = weapon,
             )
         }
