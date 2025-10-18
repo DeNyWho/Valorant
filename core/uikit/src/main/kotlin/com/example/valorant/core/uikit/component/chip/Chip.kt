@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -24,56 +25,34 @@ import coil.request.ImageRequest
 import coil.size.Size
 import com.example.valorant.core.uikit.util.DefaultPreview
 
-/**
- * Valorant ChipSurface (chip with surface colors) [ValorantChipSurface].
- */
 @Composable
-fun ValorantChipSurface(
+fun ValorantChip(
     modifier: Modifier = Modifier,
     title: String = "",
     shape: CornerBasedShape = MaterialTheme.shapes.large,
     textStyle: TextStyle = MaterialTheme.typography.labelSmall,
-    iconUrl: String? = null,
-    iconSize: Dp? = null,
+    icon: @Composable (() -> Unit)? = null,
+    horizontalTextPadding: Dp = 0.dp,
+    textColor: Color = MaterialTheme.colorScheme.onSurface,
 ) {
     Surface(
         modifier = modifier,
         shape = shape,
-        contentColor = MaterialTheme.colorScheme.onSurface,
+        contentColor = textColor,
         color = MaterialTheme.colorScheme.surfaceVariant,
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            var horizontalTextPadding = 8.dp
-
-            if(iconUrl != null && iconSize != null) {
-                horizontalTextPadding = 4.dp
-
-                AsyncImage(
-                    modifier = Modifier
-                        .padding(start = 4.dp)
-                        .align(Alignment.CenterVertically)
-                        .size(iconSize),
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(iconUrl)
-                        .crossfade(true)
-                        .size(Size.ORIGINAL)
-                        .build(),
-                    contentDescription = "Content thumbnail",
-                    contentScale = ContentScale.Crop,
-                    onError = {
-                        println(it.result.throwable.message)
-                    },
-                )
-            }
+            icon?.invoke()
 
             Text(
-                text = title,
-                style = textStyle,
                 modifier = Modifier
                     .padding(horizontal = horizontalTextPadding),
+                text = title,
+                style = textStyle,
             )
         }
     }
@@ -83,7 +62,7 @@ fun ValorantChipSurface(
 @Composable
 private fun PreviewValorantChipSurface() {
     DefaultPreview {
-        ValorantChipSurface(
+        ValorantChip(
             title = "Поддержка",
         )
     }

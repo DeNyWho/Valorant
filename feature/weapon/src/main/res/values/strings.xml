@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_weapon_component_stats_title">// Weapon stats</string>
+    <string name="feature_weapon_damage_range_title">%1$d–%2$d М</string>
+    <string name="feature_weapon_damage_range_type_title">type</string>
+    <string name="feature_weapon_damage_range_type_head_title">head</string>
+    <string name="feature_weapon_damage_range_type_body_title">body</string>
+    <string name="feature_weapon_damage_range_type_leg_title">leg</string>
+</resources>
