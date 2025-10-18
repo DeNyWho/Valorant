@@ -38,7 +38,7 @@ internal class WeaponViewModel @Inject constructor(
     }
 
     fun handleEvent(agentEvent: WeaponEvent) {
-        when(agentEvent) {
+        when (agentEvent) {
             WeaponEvent.LoadInitialData -> loadInitialData()
             WeaponEvent.OnBack -> onBack()
         }

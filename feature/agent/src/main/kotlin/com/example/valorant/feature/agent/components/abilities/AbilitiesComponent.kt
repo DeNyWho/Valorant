@@ -11,8 +11,8 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,10 +53,10 @@ internal fun AbilitiesComponent(
             color = MaterialTheme.colorScheme.onBackground,
         )
 
-        TabRow(
+        PrimaryTabRow(
             selectedTabIndex = pagerState.currentPage,
             containerColor = MaterialTheme.colorScheme.background,
-            indicator = { _ ->
+            indicator = {
                 Box(
                     modifier = Modifier
                         .height(4.dp)
@@ -66,21 +66,21 @@ internal fun AbilitiesComponent(
             divider = {}
         ) {
             abilities.forEachIndexed { index, tabItem ->
-                if(!tabItem.displayIcon.isNullOrEmpty()) {
-                Tab(
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(index)
-                        }
-                    },
-                ) {
-                    IconTab(
-                        ability = tabItem,
-                        isSelected = pagerState.currentPage == index
-                    )
-                }
+                if (!tabItem.displayIcon.isNullOrEmpty()) {
+                    Tab(
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
+                    ) {
+                        IconTab(
+                            ability = tabItem,
+                            isSelected = pagerState.currentPage == index
+                        )
                     }
+                }
             }
         }
 
@@ -122,7 +122,7 @@ internal fun AbilitiesComponent(
 }
 
 @Composable
-fun IconTab(ability: AgentAbility, isSelected: Boolean) {
+private fun IconTab(ability: AgentAbility, isSelected: Boolean) {
     Box(
         modifier = Modifier
             .size(48.dp)

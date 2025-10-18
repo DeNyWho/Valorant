@@ -70,7 +70,7 @@ internal fun CardWeaponGridItem(
                     .padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                if(!weapon.categoryText.isNullOrEmpty()) {
+                if (!weapon.categoryText.isNullOrEmpty()) {
                     Text(
                         text = weapon.categoryText!!,
                         style = MaterialTheme.typography.titleSmall,
@@ -88,7 +88,7 @@ internal fun CardWeaponGridItem(
                         color = MaterialTheme.colorScheme.onBackground,
                     )
 
-                    if(weapon.cost != null && weapon.cost != 0) {
+                    if (weapon.cost != null && weapon.cost != 0) {
                         Image(
                             modifier = Modifier.size(8.dp),
                             painter = painterResource(com.example.valorant.core.uikit.R.drawable.credits_icon),
@@ -104,6 +104,5 @@ internal fun CardWeaponGridItem(
                 }
             }
         }
-
     }
 }

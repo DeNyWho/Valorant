@@ -33,7 +33,6 @@ import coil.compose.AsyncImage
 import com.example.valorant.core.uikit.component.button.ValorantButtonSurface
 import com.example.valorant.core.uikit.component.icon.ValorantIconPrimary
 import com.example.valorant.core.uikit.component.progress.CircularProgress
-import com.example.valorant.core.uikit.util.clickableWithoutRipple
 import com.example.valorant.domain.model.map.detail.MapDetail
 import com.example.valorant.domain.state.StateWrapper
 import com.example.valorant.feature.map.model.MapAction
@@ -64,7 +63,7 @@ private fun MapContent(
     state: MapState,
     eventHandler: (MapEvent) -> Unit,
 ) {
-    when(state.map) {
+    when (state.map) {
         is StateWrapper.Loading -> CircularProgress()
 
         is StateWrapper.Success -> {
@@ -83,9 +82,6 @@ private fun MapContent(
                 ) {
                     ValorantIconPrimary(
                         modifier = Modifier
-                            .clickableWithoutRipple {
-                                eventHandler.invoke(MapEvent.OnBack)
-                            }
                             .size(28.dp),
                         imageVector = AutoMirrored.Filled.ArrowBack,
                         contentDescription = "back",

@@ -65,7 +65,7 @@ internal fun OverviewComponent(
                     color = Color.Black,
                 )
 
-                if(weapon.cost != null && weapon.cost != 0) {
+                if (weapon.cost != null && weapon.cost != 0) {
                     ValorantChip(
                         title = weapon.cost.toString(),
                         shape = MaterialTheme.shapes.medium,

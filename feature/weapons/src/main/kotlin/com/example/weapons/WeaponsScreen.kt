@@ -75,7 +75,7 @@ private fun WeaponsUI(
         horizontalArrangement = CardWeaponGridItemDefaults.HorizontalArrangement.Grid,
         verticalArrangement = CardWeaponGridItemDefaults.VerticalArrangement.Grid,
     ) {
-        when(state.weapons) {
+        when (state.weapons) {
             is StateListWrapper.Loading -> {
                 showCardWeaponGridItemShimmer(
                     modifier = Modifier.size(size),

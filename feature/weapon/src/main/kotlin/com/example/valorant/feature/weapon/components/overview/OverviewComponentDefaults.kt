@@ -3,7 +3,6 @@ package com.example.valorant.feature.weapon.components.overview
 import androidx.compose.ui.unit.dp
 
 internal object OverviewComponentDefaults {
-
     object Height {
         val Small = 400.dp
         val Medium = 420.dp

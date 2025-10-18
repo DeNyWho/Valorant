@@ -38,7 +38,7 @@ internal class MapViewModel @Inject constructor(
     }
 
     fun handleEvent(mapEvent: MapEvent) {
-        when(mapEvent) {
+        when (mapEvent) {
             MapEvent.LoadInitialData -> loadInitialData()
             MapEvent.OnBack -> onBack()
         }

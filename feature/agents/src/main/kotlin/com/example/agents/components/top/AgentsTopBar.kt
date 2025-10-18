@@ -39,6 +39,7 @@ internal fun AgentsTopBar(
                     shimmer = shimmer,
                 )
             }
+
             is StateListWrapper.Success -> {
                 val chipTitles = listOf("All") + state.roles.data.map { it.displayName }
                 val roleIcons = state.roles.data.map { it.displayIcon }
@@ -53,12 +54,14 @@ internal fun AgentsTopBar(
                     chipTitles = chipTitles,
                     selectedChipIndex = selectedIndex,
                     onChipSelected = { index ->
-                        val selectedRole = if (index == 0) null else state.roles.data.getOrNull(index - 1)
+                        val selectedRole =
+                            if (index == 0) null else state.roles.data.getOrNull(index - 1)
                         onRoleSelected(selectedRole)
                     },
                     roleIcons = roleIcons,
                 )
             }
+
             is StateListWrapper.Error -> {
 
             }

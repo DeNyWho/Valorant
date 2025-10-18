@@ -35,7 +35,7 @@ internal fun CardAgentGridItemShimmer(
     }
 }
 
-fun LazyGridScope.showCardAgentGridItemShimmer(
+internal fun LazyGridScope.showCardAgentGridItemShimmer(
     modifier: Modifier,
     shimmerInstance: Shimmer,
     count: Int = 20,

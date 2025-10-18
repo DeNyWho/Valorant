@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,10 +20,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
-import com.example.valorant.core.uikit.component.chip.ValorantChipSurface
+import coil.request.ImageRequest
+import coil.size.Size
+import com.example.valorant.core.uikit.component.chip.ValorantChip
 import com.example.valorant.core.uikit.util.LocalScreenInfo
 import com.example.valorant.domain.model.agent.detail.AgentDetail
 import com.example.valorant.domain.model.common.device.ScreenType
@@ -52,7 +56,7 @@ internal fun OverviewComponent(
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            Column (
+            Column(
                 modifier = Modifier
                     .padding(start = 16.dp, bottom = 32.dp)
                     .align(Alignment.BottomStart),
@@ -64,12 +68,29 @@ internal fun OverviewComponent(
                     style = MaterialTheme.typography.displayLarge,
                     color = Color.Black,
                 )
-                ValorantChipSurface(
+
+                ValorantChip(
                     title = agent.role.displayName,
                     shape = MaterialTheme.shapes.medium,
                     textStyle = MaterialTheme.typography.titleSmall,
-                    iconUrl = agent.role.displayIcon,
-                    iconSize = 16.dp,
+                    horizontalTextPadding = 4.dp,
+                    icon = {
+                        AsyncImage(
+                            modifier = Modifier
+                                .padding(start = 4.dp)
+                                .size(16.dp),
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(agent.role.displayIcon)
+                                .crossfade(true)
+                                .size(Size.ORIGINAL)
+                                .build(),
+                            contentDescription = "Content thumbnail",
+                            contentScale = ContentScale.Crop,
+                            onError = {
+                                println(it.result.throwable.message)
+                            },
+                        )
+                    }
                 )
             }
 
@@ -99,6 +120,5 @@ internal fun OverviewComponent(
                 }
             }
         }
-
     }
 }

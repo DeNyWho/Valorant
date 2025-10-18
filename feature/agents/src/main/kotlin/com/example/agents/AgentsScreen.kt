@@ -106,7 +106,7 @@ private fun AgentsContentUI(
             Spacer(modifier = Modifier)
         }
 
-        when(state.agents) {
+        when (state.agents) {
             is StateListWrapper.Success -> {
                 items(
                     state.agents.data,
@@ -140,7 +140,7 @@ private fun AgentActions(
     onAgentClick: (String) -> Unit,
 ) {
     LaunchedEffect(action) {
-        when(action) {
+        when (action) {
             null -> Unit
             is AgentsAction.NavigateToAgentDetail -> onAgentClick.invoke(action.agentUUID)
             is AgentsAction.ShowError -> {

@@ -17,20 +17,17 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.valorant.core.uikit.component.button.ValorantButtonSurface
 import com.example.valorant.core.uikit.component.icon.ValorantIconPrimary
-import com.example.valorant.core.uikit.util.DefaultPreview
 import com.example.valorant.domain.model.weapon.detail.WeaponDetail
 import com.example.valorant.domain.state.StateWrapper
 import com.example.valorant.feature.weapon.components.overview.OverviewComponent
@@ -64,7 +61,7 @@ private fun WeaponContent(
     state: WeaponState,
     eventHandler: (WeaponEvent) -> Unit,
 ) {
-    when(state.weapon) {
+    when (state.weapon) {
         is StateWrapper.Loading -> CircularProgressIndicator()
 
         is StateWrapper.Success -> {
@@ -124,7 +121,7 @@ private fun WeaponUI(
             )
         }
 
-        if(weapon.weaponStats.damageRanges.isNotEmpty()) {
+        if (weapon.weaponStats.damageRanges.isNotEmpty()) {
             item {
                 StatsComponent(
                     modifier = Modifier

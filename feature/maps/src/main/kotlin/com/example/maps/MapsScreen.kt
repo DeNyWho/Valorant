@@ -75,7 +75,7 @@ private fun MapsUI(
         horizontalArrangement = CardMapGridItemDefaults.HorizontalArrangement.Grid,
         verticalArrangement = CardMapGridItemDefaults.VerticalArrangement.Grid,
     ) {
-        when(state.maps) {
+        when (state.maps) {
             is StateListWrapper.Loading -> {
                 showCardMapGridItemShimmer(
                     modifier = Modifier.size(size),

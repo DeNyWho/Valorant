@@ -27,7 +27,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.valorant.core.uikit.component.button.ValorantButtonSurface
 import com.example.valorant.core.uikit.component.icon.ValorantIconPrimary
-import com.example.valorant.core.uikit.util.clickableWithoutRipple
 import com.example.valorant.domain.model.agent.detail.AgentDetail
 import com.example.valorant.domain.state.StateWrapper
 import com.example.valorant.feature.agent.components.abilities.AbilitiesComponent
@@ -83,11 +82,7 @@ private fun AgentContent(
                         elevation = ButtonDefaults.elevatedButtonElevation(),
                     ) {
                         ValorantIconPrimary(
-                            modifier = Modifier
-                                .clickableWithoutRipple {
-                                    eventHandler.invoke(AgentEvent.OnBack)
-                                }
-                                .size(28.dp),
+                            modifier = Modifier.size(28.dp),
                             imageVector = AutoMirrored.Filled.ArrowBack,
                             contentDescription = "back",
                         )

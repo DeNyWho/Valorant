@@ -33,7 +33,7 @@ internal fun CardWeaponGridItemShimmer(
     }
 }
 
-fun LazyGridScope.showCardWeaponGridItemShimmer(
+internal fun LazyGridScope.showCardWeaponGridItemShimmer(
     modifier: Modifier,
     shimmer: Shimmer,
     count: Int = 6,

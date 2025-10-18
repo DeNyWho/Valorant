@@ -16,7 +16,7 @@ internal fun DescriptionComponent(
     modifier: Modifier,
     agent: AgentDetail,
 ) {
-    Column (
+    Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
